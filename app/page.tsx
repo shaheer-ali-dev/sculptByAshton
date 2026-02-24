@@ -10,7 +10,6 @@ import AppAccessSection from '@/components/AppAccessSection'
 import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
 import PricingSection from '@/components/pricing'
-import Agreement from '@/components/Agreement_v3'
 import OneManTeamSection from '@/components/OneOnOneCoachingSection'
 export default function Home() {
   return (
@@ -28,4 +27,5 @@ export default function Home() {
     </main>
   )
 }
+
 
