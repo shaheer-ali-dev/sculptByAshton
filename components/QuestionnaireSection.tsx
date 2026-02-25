@@ -405,12 +405,13 @@ function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
       <div className="max-w-2xl w-full">
         <p className="text-xs tracking-[4px] uppercase text-black-500 font-bold mb-6">Before you begin</p>
         <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">Who This Is For</h2>
-        <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-10">
-          <p>This is for individuals who know they&apos;re capable of more and are ready to prove it to themselves.</p>
-          <p>You already have the ambition, the drive, and the desire to level up &mdash; you just need the right structure, guidance, and accountability to bring it out of you fully.</p>
-          <p>You&apos;re ready to invest in yourself, ready to execute, and ready to be held to a higher standard. You&apos;re not here to &ldquo;try.&rdquo; You&apos;re here to transform.</p>
-          <p>You&apos;re serious about changing your physique, your mindset, and the way you show up in your life.</p>
-        </div>
+       <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-10">
+  <p>This is for individuals who are done operating below their potential.</p>
+  <p>You already have ambition. You already have the drive. What you&apos;re missing is structure, direction, and a system built specifically for you.</p>
+  <p>You don&apos;t need motivation. You need standards.</p>
+  <p>You&apos;re ready to be coached. Ready to execute. Ready to invest in yourself without hesitation.</p>
+  <p>If you&apos;re serious about transforming your physique, your mindset, and the way you show up in life &mdash; you&apos;re in the right place.</p>
+</div>
         <button
           onClick={onContinue}
           className="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg tracking-wide hover:bg-black-100 transition-all"
@@ -430,12 +431,14 @@ function WhoThisIsNotForScreen({ onContinue }: { onContinue: () => void }) {
         <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">
           Who This Is <span className="underline decoration-black-500">NOT</span> For
         </h2>
-        <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-6">
-          <p>This is not for people looking for shortcuts or quick fixes.</p>
-          <p>This is not for people who make excuses, avoid accountability, or aren&apos;t ready to commit to themselves fully.</p>
-          <p>If you&apos;re unsure, hesitant, or not ready to invest in yourself mentally and financially, this isn&apos;t for you.</p>
-          <p className="text-black font-semibold">This program is for serious individuals only.</p>
-        </div>
+       <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-6">
+  <p>This is not for people looking for quick fixes or shortcuts.</p>
+  <p>Not for people who make excuses.</p>
+  <p>Not for people who disappear when things get uncomfortable.</p>
+  <p>Not for people who need to be convinced to invest in themselves.</p>
+  <p>If you&apos;re unsure, hesitant, or not ready to commit fully &mdash; this isn&apos;t for you.</p>
+  <p className="text-black font-semibold">I work with serious individuals only.</p>
+</div>
         <div className="border-t border-[#222] my-8" />
         <div className="space-y-4 text-black-300 text-lg leading-relaxed mb-10">
           <p className="text-black font-semibold text-xl">If that&apos;s you &mdash; let&apos;s get started.</p>
@@ -878,3 +881,4 @@ export default function QuestionnaireSection() {
     </section>
   )
 }
+
