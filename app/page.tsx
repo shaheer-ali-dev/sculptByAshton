@@ -11,6 +11,7 @@ import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
 import PricingSection from '@/components/pricing'
 import OneManTeamSection from '@/components/OneOnOneCoachingSection'
+import BalanceSection from '@/components/BalanceSection'
 export default function Home() {
   return (
     <main className="min-h-screen">
@@ -18,6 +19,7 @@ export default function Home() {
       <MainHeadingSection />
       <QuestionnaireSection />
       <FeaturesSection />
+      <BalanceSection/>
       <OneManTeamSection/>
       <TestimonialsSection />
       <PricingSection />

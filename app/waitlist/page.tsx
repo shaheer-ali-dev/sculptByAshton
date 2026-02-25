@@ -12,7 +12,6 @@ interface Question {
   multiple?: boolean
 }
 
-// Local register endpoint as requested
 const REGISTER_URL = 'http://localhost:5000/register'
 
 const questions: Question[] = [
@@ -75,12 +74,10 @@ const questions: Question[] = [
   {
     id: 'experience',
     type: 'textarea',
-    question: 'What do you want to get most from this experience? How do you imagine feeling once you\'ve built new habits and the confidence you deserve?',
+    question: "What do you want to get most from this experience? How do you imagine feeling once you've built new habits and the confidence you deserve?",
     placeholder: '',
     required: true,
   },
-
-  // Additional fields to send to /register
   {
     id: 'height',
     type: 'text',
@@ -107,6 +104,25 @@ const questions: Question[] = [
     type: 'yes-no',
     question: 'Do you currently prepare your meals in advance?',
     options: ['Yes', 'No'],
+    required: false,
+  },
+  {
+    id: 'exerciseFrequency',
+    type: 'yes-no',
+    question: 'How often are you able to exercise?',
+    options: ['1-2 times per week', '3-4 times per week', '5-6 times per week', 'Daily (7 times per week)'],
+    required: false,
+  },
+  {
+    id: 'activityLevel',
+    type: 'yes-no',
+    question: 'How active are you in your weekly routine?',
+    options: [
+      'Sedentary - Little to no physical activity',
+      'Lightly Active - Light exercise 1-3 days per week',
+      'Moderately Active - Moderate exercise 3-5 days per week',
+      'Very Active - Heavy exercise 6-7 days per week',
+    ],
     required: false,
   },
   {
@@ -144,8 +160,6 @@ const questions: Question[] = [
     placeholder: 'e.g. grilled chicken salad, oats & fruit',
     required: false,
   },
-
-  // Favorites by category - "Minimum 2 foods per category, comma-separated"
   {
     id: 'fruits',
     type: 'text',
@@ -181,7 +195,6 @@ const questions: Question[] = [
     placeholder: 'e.g. chicken, beef',
     required: false,
   },
-
   {
     id: 'caffeine',
     type: 'yes-no',
@@ -203,7 +216,6 @@ const questions: Question[] = [
     options: ['Yes', 'No'],
     required: false,
   },
-
   {
     id: 'injuriesOrSurgeries',
     type: 'text',
@@ -225,12 +237,11 @@ const questions: Question[] = [
     placeholder: 'List or "None"',
     required: false,
   },
-
   {
     id: 'occupation',
-    type: 'text',
-    question: 'What is your occupation?',
-    placeholder: '',
+    type: 'textarea',
+    question: "What is your occupation?\n\nIf you're unemployed, or entrepreneurial and don't sit at a desk all day... feel free to leave this blank.\n\nIf you're not an entrepreneur, please answer as either: Full Time, or Part Time.",
+    placeholder: 'Type your answer here...',
     required: false,
   },
   {
@@ -247,12 +258,11 @@ const questions: Question[] = [
     placeholder: '',
     required: false,
   },
-
   {
     id: 'fitnessLevel',
-    type: 'text',
-    question: 'How would you rate your current fitness level?',
-    placeholder: 'e.g. beginner / intermediate / advanced',
+    type: 'yes-no',
+    question: 'How would you describe your current fitness level?',
+    options: ['Beginner', 'Intermediate', 'Advanced'],
     required: false,
   },
   {
@@ -276,7 +286,6 @@ const questions: Question[] = [
     options: ['Yes', 'No'],
     required: false,
   },
-
   {
     id: 'dailyRoutine',
     type: 'textarea',
@@ -287,11 +296,10 @@ const questions: Question[] = [
   {
     id: 'weeklyWorkoutSplit',
     type: 'textarea',
-    question: 'What does your weekly workout split look like? (If you don’t have one, leave blank.)',
+    question: "What does your weekly workout split look like? (If you don't have one, leave blank.)",
     placeholder: 'Example: Monday = Legs, Tuesday = Push...',
     required: false,
   },
-
   {
     id: 'motivation',
     type: 'textarea',
@@ -309,12 +317,10 @@ const questions: Question[] = [
   {
     id: 'coachNotes',
     type: 'textarea',
-    question: 'Is there anything you’d like me to know, as your new Online fitness Coach?',
+    question: "Is there anything you'd like me to know, as your new Online fitness Coach?",
     placeholder: '',
     required: false,
   },
-
-  // Name, contact and account fields required for registering (keep at end)
   {
     id: 'name',
     type: 'name',
@@ -350,7 +356,6 @@ const questions: Question[] = [
     placeholder: '',
     required: false,
   },
-
   {
     id: 'instagram',
     type: 'text',
@@ -373,7 +378,6 @@ export default function WaitlistPage() {
   const currentQuestion = questions[currentStep]
   const progress = ((currentStep + 1) / questions.length) * 100
 
-  // Fetch spots left on mount
   useEffect(() => {
     fetch('/api/waitlist/spots')
       .then(res => res.json())
@@ -381,29 +385,20 @@ export default function WaitlistPage() {
       .catch(err => console.error('Failed to fetch spots:', err))
   }, [])
 
-  // drag/drop for avatar
   useEffect(() => {
     const el = dropRef.current
     if (!el) return
-
-    const onDragOver = (e: DragEvent) => {
-      e.preventDefault()
-      el.classList.add('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]')
-    }
-    const onDragLeave = () => {
-      el.classList.remove('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]')
-    }
+    const onDragOver = (e: DragEvent) => { e.preventDefault(); el.classList.add('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]') }
+    const onDragLeave = () => { el.classList.remove('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]') }
     const onDrop = (e: DragEvent) => {
       e.preventDefault()
       el.classList.remove('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]')
       const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]
       if (f) handleAvatarChange(f)
     }
-
     el.addEventListener('dragover', onDragOver)
     el.addEventListener('dragleave', onDragLeave)
     el.addEventListener('drop', onDrop)
-
     return () => {
       el.removeEventListener('dragover', onDragOver)
       el.removeEventListener('dragleave', onDragLeave)
@@ -411,23 +406,12 @@ export default function WaitlistPage() {
     }
   }, [])
 
-  // Clear errors when step changes
-  useEffect(() => {
-    setErrors({})
-  }, [currentStep])
+  useEffect(() => { setErrors({}) }, [currentStep])
 
-  // Validation for a single question using a provided answers object
   const validateAnswersForQuestion = (question: Question, answersObj: Record<string, any>) => {
     if (!question.required) return true
-
-    if (question.type === 'name') {
-      return Boolean(answersObj['firstName'] && answersObj['lastName'])
-    }
-
-    if (question.type === 'password') {
-      return Boolean(answersObj['password'] && answersObj['password'].length >= 6)
-    }
-
+    if (question.type === 'name') return Boolean(answersObj['firstName'] && answersObj['lastName'])
+    if (question.type === 'password') return Boolean(answersObj['password'] && answersObj['password'].length >= 6)
     const answer = answersObj[question.id]
     if (!answer) return false
     if (Array.isArray(answer) && answer.length === 0) return false
@@ -441,25 +425,18 @@ export default function WaitlistPage() {
 
     setAnswers((prev) => {
       let next = { ...prev }
-
       if (isMulti) {
         const existing = Array.isArray(prev[qid]) ? prev[qid] : []
-        if (existing.includes(value)) next[qid] = existing.filter((v) => v !== value)
+        if (existing.includes(value)) next[qid] = existing.filter((v: any) => v !== value)
         else next[qid] = [...existing, value]
       } else {
         next[qid] = value
       }
 
-      // clear errors for this q
       if (errors[qid]) {
-        setErrors((prevErr) => {
-          const updated = { ...prevErr }
-          delete updated[qid]
-          return updated
-        })
+        setErrors((prevErr) => { const updated = { ...prevErr }; delete updated[qid]; return updated })
       }
 
-      // auto-next only for single select fields
       if (immediateNext && !isMulti) {
         const isValid = validateAnswersForQuestion(currentQuestion, next)
         if (isValid) {
@@ -482,13 +459,8 @@ export default function WaitlistPage() {
   const validateCurrentStep = (): boolean => {
     if (currentQuestion.required) {
       if (currentQuestion.type === 'name') {
-        const firstName = answers['firstName']
-        const lastName = answers['lastName']
-        if (!firstName || !lastName) {
-          setErrors((prev) => ({
-            ...prev,
-            [currentQuestion.id]: 'Please fill in all the fields',
-          }))
+        if (!answers['firstName'] || !answers['lastName']) {
+          setErrors((prev) => ({ ...prev, [currentQuestion.id]: 'Please fill in all the fields' }))
           return false
         }
       } else if (currentQuestion.type === 'password') {
@@ -519,20 +491,17 @@ export default function WaitlistPage() {
     }
   }
 
-  const handlePrevious = () => {
-    if (currentStep > 0) setCurrentStep((prev) => prev - 1)
-  }
+  const handlePrevious = () => { if (currentStep > 0) setCurrentStep((prev) => prev - 1) }
 
   const renderOptionsHardCoded = () => {
     if (!currentQuestion.options) return null
     const options = currentQuestion.options
     const rows = []
-
     for (let i = 0; i < options.length; i += 2) {
       const first = options[i]
       const second = options[i + 1]
       rows.push(
-        <div key={i} className={`flex justify-center gap-4 mb-4`}>
+        <div key={i} className="flex justify-center gap-4 mb-4">
           <button
             type="button"
             onClick={() => handleAnswer(first, !currentQuestion.multiple)}
@@ -560,38 +529,23 @@ export default function WaitlistPage() {
         </div>
       )
     }
-
     return rows
   }
 
   const handleNameChange = (field: 'firstName' | 'lastName', value: string) => {
     setAnswers(prev => ({ ...prev, [field]: value }))
     if (errors[currentQuestion.id]) {
-      setErrors(prev => {
-        const updated = { ...prev }
-        delete updated[currentQuestion.id]
-        return updated
-      })
+      setErrors(prev => { const updated = { ...prev }; delete updated[currentQuestion.id]; return updated })
     }
   }
 
   const handleAvatarChange = (file?: File | null) => {
     if (!file) {
-      setAnswers((prev) => {
-        const next = { ...prev }
-        delete next['avatarFile']
-        return next
-      })
+      setAnswers((prev) => { const next = { ...prev }; delete next['avatarFile']; return next })
       setAvatarPreview(null)
       return
     }
-
-    // limit size example: 5MB
-    if (file.size > 5 * 1024 * 1024) {
-      setErrors((prev) => ({ ...prev, avatar: 'Avatar must be < 5MB' }))
-      return
-    }
-
+    if (file.size > 5 * 1024 * 1024) { setErrors((prev) => ({ ...prev, avatar: 'Avatar must be < 5MB' })); return }
     setAnswers((prev) => ({ ...prev, avatarFile: file }))
     const reader = new FileReader()
     reader.onload = (e) => setAvatarPreview(e.target?.result as string)
@@ -633,67 +587,38 @@ export default function WaitlistPage() {
       case 'name':
         return (
           <div className="grid grid-cols-2 gap-4">
-            <input
-              type="text"
-              value={answers.firstName || ''}
-              onChange={(e) => handleNameChange('firstName', e.target.value)}
-              placeholder="First Name"
-              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`}
-            />
-            <input
-              type="text"
-              value={answers.lastName || ''}
-              onChange={(e) => handleNameChange('lastName', e.target.value)}
-              placeholder="Last Name"
-              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`}
-            />
+            <input type="text" value={answers.firstName || ''} onChange={(e) => handleNameChange('firstName', e.target.value)} placeholder="First Name"
+              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
+            <input type="text" value={answers.lastName || ''} onChange={(e) => handleNameChange('lastName', e.target.value)} placeholder="Last Name"
+              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
           </div>
         )
 
       case 'phone':
         return (
           <div className="flex gap-2">
-            <select
-              className="px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900"
-              value={answers.countryCode || '+92'}
-              onChange={(e) => setAnswers((prev) => ({ ...prev, countryCode: e.target.value }))}
-            >
+            <select className="px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900" value={answers.countryCode || '+92'}
+              onChange={(e) => setAnswers((prev) => ({ ...prev, countryCode: e.target.value }))}>
               <option value="+92">🇵🇰 +92</option>
               <option value="+1">🇺🇸 +1</option>
               <option value="+44">🇬🇧 +44</option>
             </select>
-            <input
-              type="tel"
-              value={value}
-              onChange={(e) => handleAnswer(e.target.value)}
-              placeholder={currentQuestion.placeholder}
-              className={`flex-1 px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`}
-            />
+            <input type="tel" value={value} onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder}
+              className={`flex-1 px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
           </div>
         )
 
       case 'textarea':
         return (
-          <textarea
-            value={value}
-            onChange={(e) => handleAnswer(e.target.value)}
-            placeholder={currentQuestion.placeholder}
-            rows={6}
-            className={`w-full px-6 py-5 rounded-lg border bg-white text-gray-900 min-h-[250px] focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent resize-y ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`}
-          />
+          <textarea value={value} onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder} rows={6}
+            className={`w-full px-6 py-5 rounded-lg border bg-white text-gray-900 min-h-[250px] focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent resize-y ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
         )
 
       case 'scale':
         return (
           <div className="w-full">
-            <input
-              type="range"
-              min="1"
-              max="10"
-              value={value || 1}
-              onChange={(e) => handleAnswer(e.target.value)}
-              className="w-full h-3 bg-gray-200 rounded-lg accent-[#5A5A5A]"
-            />
+            <input type="range" min="1" max="10" value={value || 1} onChange={(e) => handleAnswer(e.target.value)}
+              className="w-full h-3 bg-gray-200 rounded-lg accent-[#5A5A5A]" />
             <div className="flex justify-between text-xs mt-2 text-gray-700">
               {[1,2,3,4,5,6,7,8,9,10].map(num => <span key={num}>{num}</span>)}
             </div>
@@ -703,11 +628,8 @@ export default function WaitlistPage() {
       case 'avatar':
         return (
           <div className="flex flex-col items-center gap-4">
-            <label
-              ref={dropRef}
-              htmlFor="avatar-file"
-              className="w-40 h-40 rounded-full bg-white border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-2 cursor-pointer overflow-hidden relative hover:border-gray-400 transition-all"
-            >
+            <label ref={dropRef} htmlFor="avatar-file"
+              className="w-40 h-40 rounded-full bg-white border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-2 cursor-pointer overflow-hidden relative hover:border-gray-400 transition-all">
               {avatarPreview ? (
                 <>
                   <img src={avatarPreview} alt="avatar preview" className="w-full h-full object-cover" />
@@ -722,33 +644,16 @@ export default function WaitlistPage() {
                   <div className="text-xs text-gray-400">Drag & drop or click</div>
                 </>
               )}
-              <input
-                id="avatar-file"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => {
-                  const f = e.target.files && e.target.files[0]
-                  handleAvatarChange(f)
-                }}
-              />
+              <input id="avatar-file" type="file" accept="image/*" className="hidden"
+                onChange={(e) => { const f = e.target.files && e.target.files[0]; handleAvatarChange(f) }} />
             </label>
-
-            {avatarPreview ? (
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleAvatarChange(undefined)
-                    const input = document.getElementById('avatar-file') as HTMLInputElement | null
-                    if (input) input.value = ''
-                  }}
-                  className="px-4 py-2 rounded-lg bg-white border border-gray-300 text-sm hover:bg-gray-100"
-                >
-                  Remove
-                </button>
-              </div>
-            ) : null}
+            {avatarPreview && (
+              <button type="button"
+                onClick={() => { handleAvatarChange(undefined); const input = document.getElementById('avatar-file') as HTMLInputElement | null; if (input) input.value = '' }}
+                className="px-4 py-2 rounded-lg bg-white border border-gray-300 text-sm hover:bg-gray-100">
+                Remove
+              </button>
+            )}
           </div>
         )
 
@@ -764,7 +669,6 @@ export default function WaitlistPage() {
     }
   }
 
-  // Helper to convert yes/no-like answers to boolean
   const yesNoToBool = (val: any) => {
     if (typeof val === 'boolean') return val
     if (!val) return false
@@ -772,10 +676,7 @@ export default function WaitlistPage() {
     return s.startsWith('y') || s === 'true' || s === 'yes' || s.includes("i'm ready")
   }
 
-  // Final submit flow (single implementation)
   const handleFinalSubmit = (answersObj: Record<string, any>) => {
-    // ensure we include firstName/lastName mapping if name is present
-    // In this flow we already set firstName/lastName via handleNameChange
     handleFinalSubmitAsync(answersObj)
   }
 
@@ -785,9 +686,7 @@ export default function WaitlistPage() {
 
   const handleFinalSubmitOperation = async (finalAnswers: Record<string, any>) => {
     setIsSubmitting(true)
-
     try {
-      // Basic required fields
       const email = finalAnswers.email
       const password = finalAnswers.password
       if (!email || !password) {
@@ -803,130 +702,82 @@ export default function WaitlistPage() {
       formData.append('password', password)
       formData.append('role', finalAnswers.role ?? 'client')
       if (finalAnswers.challenges) formData.append('bio', finalAnswers.challenges)
-
       if (finalAnswers.avatarFile) formData.append('avatar', finalAnswers.avatarFile)
 
-      // Phone number
       const phoneNumber = (finalAnswers.countryCode ?? '') + (finalAnswers.phone ?? '')
       if (phoneNumber) formData.append('phoneNumber', phoneNumber)
 
-      // Basic numeric fields
       if (finalAnswers.gender) formData.append('gender', String(finalAnswers.gender))
       if (finalAnswers.age) formData.append('age', String(finalAnswers.age))
       if (finalAnswers.height) formData.append('height', String(finalAnswers.height))
       if (finalAnswers.weight) formData.append('weight', String(finalAnswers.weight))
-
-      // Nutrition & lifestyle fields
       if (finalAnswers.monthlyFoodBudget) formData.append('monthlyFoodBudget', String(finalAnswers.monthlyFoodBudget))
       if (finalAnswers.mealPrep !== undefined) formData.append('mealPrep', String(yesNoToBool(finalAnswers.mealPrep)))
+      if (finalAnswers.exerciseFrequency) formData.append('exerciseFrequency', String(finalAnswers.exerciseFrequency))
+      if (finalAnswers.activityLevel) formData.append('activityLevel', String(finalAnswers.activityLevel))
       if (finalAnswers.weightTrainingDaysPerWeek) formData.append('weightTrainingDaysPerWeek', String(finalAnswers.weightTrainingDaysPerWeek))
       if (finalAnswers.foodAllergens) formData.append('foodAllergens', String(finalAnswers.foodAllergens))
       if (finalAnswers.foodRestrictions) formData.append('foodRestrictions', String(finalAnswers.foodRestrictions))
       if (finalAnswers.favoriteWholeFoods) formData.append('favoriteWholeFoods', String(finalAnswers.favoriteWholeFoods))
       if (finalAnswers.favoriteMeals) formData.append('favoriteMeals', String(finalAnswers.favoriteMeals))
-
-      // Favorite foods by category
       if (finalAnswers.fruits) formData.append('fruits', String(finalAnswers.fruits))
       if (finalAnswers.vegetables) formData.append('vegetables', String(finalAnswers.vegetables))
       if (finalAnswers.grains) formData.append('grains', String(finalAnswers.grains))
       if (finalAnswers.dairy) formData.append('dairy', String(finalAnswers.dairy))
       if (finalAnswers.meat) formData.append('meat', String(finalAnswers.meat))
-
-      // Lifestyle booleans
       if (finalAnswers.caffeine !== undefined) formData.append('caffeine', String(yesNoToBool(finalAnswers.caffeine)))
       if (finalAnswers.smoking !== undefined) formData.append('smoking', String(yesNoToBool(finalAnswers.smoking)))
       if (finalAnswers.alcohol !== undefined) formData.append('alcohol', String(yesNoToBool(finalAnswers.alcohol)))
-
-      // Medical
       if (finalAnswers.injuriesOrSurgeries) formData.append('injuriesOrSurgeries', String(finalAnswers.injuriesOrSurgeries))
       if (finalAnswers.medicalConditions) formData.append('medicalConditions', String(finalAnswers.medicalConditions))
       if (finalAnswers.medications) formData.append('medications', String(finalAnswers.medications))
-
-      // Lifestyle & stress
       if (finalAnswers.occupation) formData.append('occupation', String(finalAnswers.occupation))
       if (finalAnswers.stressLevel) formData.append('stressLevel', String(finalAnswers.stressLevel))
       if (finalAnswers.eatingHabitsRating) formData.append('eatingHabitsRating', String(finalAnswers.eatingHabitsRating))
-
-      // Fitness
       if (finalAnswers.fitnessLevel) formData.append('fitnessLevel', String(finalAnswers.fitnessLevel))
       if (finalAnswers.physicalActivity !== undefined) formData.append('physicalActivity', String(yesNoToBool(finalAnswers.physicalActivity)))
       if (finalAnswers.workedWithCoachBefore !== undefined) formData.append('workedWithCoachBefore', String(yesNoToBool(finalAnswers.workedWithCoachBefore)))
       if (finalAnswers.hasBodyWeightScale !== undefined) formData.append('hasBodyWeightScale', String(yesNoToBool(finalAnswers.hasBodyWeightScale)))
-
       if (finalAnswers.dailyRoutine) formData.append('dailyRoutine', String(finalAnswers.dailyRoutine))
       if (finalAnswers.weeklyWorkoutSplit) formData.append('weeklyWorkoutSplit', String(finalAnswers.weeklyWorkoutSplit))
-
       if (finalAnswers.motivation) formData.append('motivation', String(finalAnswers.motivation))
       if (finalAnswers.pastChallenges) formData.append('pastChallenges', String(finalAnswers.pastChallenges))
       if (finalAnswers.coachNotes) formData.append('coachNotes', String(finalAnswers.coachNotes))
-
+      if (finalAnswers.instagram) formData.append('instagram', String(finalAnswers.instagram))
       if (finalAnswers.coachId) formData.append('coachId', String(finalAnswers.coachId))
       if (finalAnswers.package) formData.append('package', String(finalAnswers.package))
 
-      // Attempt to register user; if register fails we'll still attempt the waitlist submit,
-      // but we'll console.warn the register error and continue to waitlist submission.
       try {
-        const regResp = await fetch(REGISTER_URL, {
-          method: 'POST',
-          body: formData,
-        })
-
+        const regResp = await fetch(REGISTER_URL, { method: 'POST', body: formData })
         if (!regResp.ok) {
-          // try to parse message
           let msg = 'Registration failed'
-          try {
-            const j = await regResp.json().catch(() => null)
-            if (j && j.msg) msg = j.msg
-            else if (j && j.error) msg = j.error
-          } catch (e) {}
+          try { const j = await regResp.json().catch(() => null); if (j && j.msg) msg = j.msg; else if (j && j.error) msg = j.error } catch (e) {}
           console.warn('Register request failed:', msg)
-          // we DO NOT abort — we continue to waitlist submission to preserve waitlist logic
         } else {
-          // if register returns token store it (optional)
-          try {
-            const data = await regResp.json().catch(() => null)
-            if (data && data.token) localStorage.setItem('token', data.token)
-          } catch (e) { /* ignore */ }
+          try { const data = await regResp.json().catch(() => null); if (data && data.token) localStorage.setItem('token', data.token) } catch (e) {}
         }
-      } catch (e) {
-        console.warn('Register request error:', e)
-      }
+      } catch (e) { console.warn('Register request error:', e) }
 
-      // Now submit to waitlist endpoint (JSON). Remove avatarFile (File) since cannot JSON.stringify it.
       const payload = { ...finalAnswers }
       delete payload.avatarFile
-      // ensure phone uses full phone number with country code
       if (finalAnswers.countryCode || finalAnswers.phone) payload.phoneNumber = (finalAnswers.countryCode ?? '') + (finalAnswers.phone ?? '')
 
       try {
         const response = await fetch('/api/waitlist/submit', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         })
-
         const data = await response.json()
-
-        if (response.ok) {
-          setSubmissionStatus('success')
-          setSpotsLeft(data.spotsLeft)
-        } else if (data && data.error === 'Waitlist is full') {
-          setSubmissionStatus('full')
-        } else {
-          setSubmissionStatus('error')
-        }
-      } catch (error) {
-        console.error('Waitlist submission error:', error)
-        setSubmissionStatus('error')
-      }
+        if (response.ok) { setSubmissionStatus('success'); setSpotsLeft(data.spotsLeft) }
+        else if (data && data.error === 'Waitlist is full') setSubmissionStatus('full')
+        else setSubmissionStatus('error')
+      } catch (error) { console.error('Waitlist submission error:', error); setSubmissionStatus('error') }
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  // Render different states (success / full / error)
   if (submissionStatus === 'success') {
     return (
       <div className="min-h-screen bg-[#FAF9F6] flex items-center justify-center px-4">
@@ -941,20 +792,11 @@ export default function WaitlistPage() {
             <p className="text-lg text-black mb-6 normal-font">
               Congratulations! You've secured your spot in this exclusive special offer.
               {spotsLeft !== null && spotsLeft > 0 && (
-                <span className="block mt-2 font-semibold text-[#5A5A5A]">
-                  Only {spotsLeft} spot{spotsLeft !== 1 ? 's' : ''} remaining!
-                </span>
+                <span className="block mt-2 font-semibold text-[#5A5A5A]">Only {spotsLeft} spot{spotsLeft !== 1 ? 's' : ''} remaining!</span>
               )}
             </p>
-            <p className="text-black normal-font mb-8">
-              We'll contact you soon with next steps. Check your email for confirmation!
-            </p>
-            <a
-              href="/"
-              className="inline-block px-8 py-4 bg-[#5A5A5A] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font"
-            >
-              Return to Home
-            </a>
+            <p className="text-black normal-font mb-8">We'll contact you soon with next steps. Check your email for confirmation!</p>
+            <a href="/" className="inline-block px-8 py-4 bg-[#5A5A5A] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font">Return to Home</a>
           </div>
         </div>
       </div>
@@ -972,18 +814,9 @@ export default function WaitlistPage() {
               </svg>
             </div>
             <h1 className="text-3xl font-bold text-black mb-4 heading-font">Waitlist Full</h1>
-            <p className="text-lg text-black mb-6 normal-font">
-              Sorry, all spots have been filled. This exclusive offer is now closed.
-            </p>
-            <p className="text-black normal-font mb-8">
-              Stay tuned for future opportunities by following us on social media!
-            </p>
-            <a
-              href="/"
-              className="inline-block px-8 py-4 bg-[#5A5A5A] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font"
-            >
-              Return to Home
-            </a>
+            <p className="text-lg text-black mb-6 normal-font">Sorry, all spots have been filled. This exclusive offer is now closed.</p>
+            <p className="text-black normal-font mb-8">Stay tuned for future opportunities by following us on social media!</p>
+            <a href="/" className="inline-block px-8 py-4 bg-[#5A5A5A] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font">Return to Home</a>
           </div>
         </div>
       </div>
@@ -1001,16 +834,9 @@ export default function WaitlistPage() {
               </svg>
             </div>
             <h1 className="text-3xl font-bold text-black mb-4 heading-font">Oops! Something went wrong</h1>
-            <p className="text-lg text-black mb-8 normal-font">
-              We couldn't submit your application. Please try again.
-            </p>
-            <button
-              onClick={() => {
-                setSubmissionStatus('idle')
-                setCurrentStep(0)
-              }}
-              className="inline-block px-8 py-4 bg-[#5A5A5A] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font"
-            >
+            <p className="text-lg text-black mb-8 normal-font">We couldn't submit your application. Please try again.</p>
+            <button onClick={() => { setSubmissionStatus('idle'); setCurrentStep(0) }}
+              className="inline-block px-8 py-4 bg-[#5A5A5A] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font">
               Try Again
             </button>
           </div>
@@ -1019,83 +845,50 @@ export default function WaitlistPage() {
     )
   }
 
-  // Main questionnaire UI (kept layout from original)
   return (
     <section className="py-20 bg-[#FAF9F6] min-h-screen">
       <div className="container mx-auto px-4 max-w-4xl">
-        {/* Header with spots left */}
         <div className="text-center mb-8">
           <div className="inline-block bg-black text-white px-6 py-3 rounded-full font-bold text-lg mb-4">
             🔥 EXCLUSIVE SPECIAL OFFER 🔥
           </div>
           {spotsLeft !== null && (
-            <p className="text-[#5A5A5A] font-semibold text-xl">
-              {spotsLeft} / 125 Spots Remaining
-            </p>
+            <p className="text-[#5A5A5A] font-semibold text-xl">{spotsLeft} / 125 Spots Remaining</p>
           )}
         </div>
 
-        <h2 className="text-4xl heading-font md:text-5xl font-bold text-[#5A5A5A] mb-6 text-center">
-          Join the Waitlist
-        </h2>
-        <p className="text-center text-black mb-12 normal-font text-lg">
-          Limited spots — don't miss this exclusive training opportunity!
-        </p>
+        <h2 className="text-4xl heading-font md:text-5xl font-bold text-[#5A5A5A] mb-6 text-center">Join the Waitlist</h2>
+        <p className="text-center text-black mb-12 normal-font text-lg">Limited spots — don't miss this exclusive training opportunity!</p>
 
-        {/* Progress bar */}
         <div className="mb-12">
           <div className="w-full h-1.5 bg-white rounded-full overflow-hidden">
             <div className="h-full bg-[#5A5A5A] transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         </div>
 
-        {/* Current question */}
         <div className="mb-8">
           <h3 className="text-xl normal-font md:text-2xl font-bold text-black mb-8 text-center whitespace-pre-line">
             {currentQuestion.question}
           </h3>
-
           <div className="mb-4 normal-font">{renderInput()}</div>
-
           {currentQuestion.type === 'scale' && (
-            <div className="text-center text-2xl font-bold text-[#5A5A5A] mt-4">
-              {answers[currentQuestion.id] || 1}
-            </div>
+            <div className="text-center text-2xl font-bold text-[#5A5A5A] mt-4">{answers[currentQuestion.id] || 1}</div>
           )}
-
           {errors[currentQuestion.id] && (
             <p className="text-[#5A5A5A] normal-font text-sm mt-2 text-center">{errors[currentQuestion.id]}</p>
           )}
         </div>
 
-        {/* Navigation */}
         <div className="flex justify-between normal-font gap-4 mt-12">
-          <button
-            type="button"
-            onClick={handlePrevious}
-            disabled={currentStep === 0}
-            className={`px-8 py-4 rounded-lg normal-font font-semibold text-black transition-all ${
-              currentStep === 0
-                ? 'opacity-50 cursor-not-allowed bg-white border-2 border-black'
-                : 'bg-white border-2 border-black hover:bg-black'
-            }`}
-          >
-            ← Previous
+          <button type="button" onClick={handlePrevious} disabled={currentStep === 0}
+            className={`px-8 py-4 rounded-lg normal-font font-semibold text-black transition-all ${currentStep === 0 ? 'opacity-50 cursor-not-allowed bg-white border-2 border-black' : 'bg-white border-2 border-black hover:bg-black'}`}>
+            &larr; Previous
           </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              if (currentStep < questions.length - 1) {
-                if (validateCurrentStep()) handleNext()
-              } else {
-                if (validateCurrentStep()) handleFinalSubmit(answers)
-              }
-            }}
+          <button type="button"
+            onClick={() => { if (currentStep < questions.length - 1) { if (validateCurrentStep()) handleNext() } else { if (validateCurrentStep()) handleFinalSubmit(answers) } }}
             disabled={isSubmitting}
-            className="px-8 py-4 rounded-lg normal-font font-semibold bg-[#5A5A5A] text-white border-2 border-[#5A5A5A] hover:bg-[#FF5A8A] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? 'Submitting...' : currentStep === questions.length - 1 ? 'Join Waitlist' : 'Next →'}
+            className="px-8 py-4 rounded-lg normal-font font-semibold bg-[#5A5A5A] text-white border-2 border-[#5A5A5A] hover:bg-[#FF5A8A] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+            {isSubmitting ? 'Submitting...' : currentStep === questions.length - 1 ? 'Join Waitlist' : 'Next \u2192'}
           </button>
         </div>
       </div>

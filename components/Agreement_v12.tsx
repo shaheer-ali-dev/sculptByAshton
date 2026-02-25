@@ -55,7 +55,7 @@ This program is non-transferable.
 
 By signing, you acknowledge that you have read, understood, and agree to these terms in full.`
 
-// ── Native canvas signature pad (no third-party library) ─────────────────────
+// ── Native canvas signature pad ───────────────────────────────────────────────
 function SignaturePad({
   canvasRef,
   hasError,
@@ -162,6 +162,20 @@ function clearCanvas(canvas: HTMLCanvasElement) {
   if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height)
 }
 
+// ── Logo ──────────────────────────────────────────────────────────────────────
+function Logo() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 30 }}>
+      <img src="./logo.png" alt="" />
+      
+      <div>
+        <div style={{ fontSize: 11, letterSpacing: 4, color: '#999', fontWeight: 700, textTransform: 'uppercase' }}>Sculpt By</div>
+        <div style={{ fontSize: 22, fontWeight: 900, letterSpacing: 0.5, lineHeight: 1.1 }}>ASHTON</div>
+      </div>
+    </div>
+  )
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 export default function Agreement() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -169,6 +183,16 @@ export default function Agreement() {
   const [plan, setPlan] = useState('')
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  // Mobile tab: 'agreement' | 'form'
+  const [mobileTab, setMobileTab] = useState<'agreement' | 'form'>('agreement')
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 900)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const clearSignature = () => {
     if (canvasRef.current) clearCanvas(canvasRef.current)
@@ -216,7 +240,6 @@ export default function Agreement() {
 
       const sigData = canvasRef.current ? canvasRef.current.toDataURL('image/png') : ''
 
-      // Build agreement image
       const canvas = document.createElement('canvas')
       canvas.width = 1240
       canvas.height = 2400
@@ -301,141 +324,236 @@ export default function Agreement() {
     )
   }
 
+  // ── Tab switcher (mobile only) ────────────────────────────────────────────
+  const TabSwitcher = () => (
+    <div style={{
+      display: 'flex',
+      background: '#1a1a1a',
+      borderRadius: 14,
+      padding: 4,
+      marginBottom: 24,
+      gap: 4,
+    }}>
+      {(['agreement', 'form'] as const).map((tab) => {
+        const active = mobileTab === tab
+        return (
+          <button
+            key={tab}
+            type="button"
+            onClick={() => setMobileTab(tab)}
+            style={{
+              flex: 1,
+              padding: '10px 0',
+              borderRadius: 10,
+              border: 'none',
+              cursor: 'pointer',
+              fontWeight: 700,
+              fontSize: 13.5,
+              letterSpacing: 0.3,
+              transition: 'all .2s',
+              background: active ? '#fff' : 'transparent',
+              color: active ? '#111' : '#888',
+            }}
+          >
+            {tab === 'agreement' ? '📄 Agreement' : '✍️ Sign & Pay'}
+          </button>
+        )
+      })}
+    </div>
+  )
+
+  // ── Agreement panel content ───────────────────────────────────────────────
+  const AgreementPanel = () => (
+    <div style={{ padding: isMobile ? '28px 22px' : '44px 48px', overflowY: 'auto', maxHeight: isMobile ? 'none' : '88vh', borderRight: isMobile ? 'none' : '1px solid #eee' }}>
+      <Logo />
+      <h2 style={{ fontSize: 21, fontWeight: 800, marginBottom: 4 }}>12-Month Coaching Agreement</h2>
+      <div style={{ fontSize: 11.5, color: '#999', letterSpacing: 2, fontWeight: 600, marginBottom: 28, textTransform: 'uppercase' }}>
+        Terms of Service
+      </div>
+      <div style={{ fontSize: 13.5, lineHeight: 1.9, color: '#222', whiteSpace: 'pre-wrap' }}>
+        {AGREEMENT_TEXT}
+      </div>
+      {isMobile && (
+        <button
+          type="button"
+          onClick={() => setMobileTab('form')}
+          style={{
+            marginTop: 32,
+            width: '100%',
+            padding: '16px 0',
+            borderRadius: 13,
+            border: 'none',
+            cursor: 'pointer',
+            background: 'linear-gradient(135deg, #000 0%, #383838 100%)',
+            color: '#fff',
+            fontSize: 15,
+            fontWeight: 700,
+            letterSpacing: 0.4,
+            boxShadow: '0 8px 28px rgba(0,0,0,.2)',
+          }}
+        >
+          I've Read the Agreement →
+        </button>
+      )}
+    </div>
+  )
+
+  // ── Form panel content ────────────────────────────────────────────────────
+  const FormPanel = () => (
+    <div style={{
+      padding: isMobile ? '28px 22px' : '44px 38px',
+      background: '#f6f6f6',
+      display: 'flex',
+      flexDirection: 'column',
+      overflowY: 'auto',
+      maxHeight: isMobile ? 'none' : '88vh',
+    }}>
+      {isMobile && <Logo />}
+      <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 22, marginTop: 0 }}>Complete &amp; Sign</h3>
+
+      {/* Payment plan */}
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 10 }}>Payment Plan</div>
+        {planCard('upfront',   'Full Upfront',  '$3,000 USD — single payment')}
+        {planCard('quarterly', 'Quarterly',      '$750 USD × 4 (every 3 months)')}
+        {planCard('half',      'Half & Half',   '$1,500 now + $1,500 next month')}
+        {errSpan('plan')}
+      </div>
+
+      {/* Name */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ fontWeight: 700, fontSize: 14, display: 'block', marginBottom: 6 }}>Full Name</label>
+        <input
+          value={form.clientName}
+          onChange={(e) => { setForm({ ...form, clientName: e.target.value }); setErrors((err) => { const n = { ...err }; delete n.clientName; return n }) }}
+          placeholder="Enter your full name"
+          style={{
+            width: '100%', padding: '12px 14px', borderRadius: 10,
+            border: `1.5px solid ${errors.clientName ? '#c00' : '#ccc'}`,
+            fontSize: 14, background: '#fff', boxSizing: 'border-box',
+          }}
+        />
+        {errSpan('clientName')}
+      </div>
+
+      {/* Date */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ fontWeight: 700, fontSize: 14, display: 'block', marginBottom: 6 }}>Date</label>
+        <input
+          type="date"
+          value={form.date}
+          onChange={(e) => { setForm({ ...form, date: e.target.value }); setErrors((err) => { const n = { ...err }; delete n.date; return n }) }}
+          style={{
+            width: '100%', padding: '12px 14px', borderRadius: 10,
+            border: `1.5px solid ${errors.date ? '#c00' : '#ccc'}`,
+            fontSize: 14, background: '#fff', boxSizing: 'border-box',
+          }}
+        />
+        {errSpan('date')}
+      </div>
+
+      {/* Signature */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ fontWeight: 700, fontSize: 14, display: 'block', marginBottom: 6 }}>Signature</label>
+        <SignaturePad
+          canvasRef={canvasRef}
+          hasError={!!errors.signature}
+          onBegin={() => setErrors((err) => { const n = { ...err }; delete n.signature; return n })}
+        />
+        {errSpan('signature')}
+        <button
+          type="button"
+          onClick={clearSignature}
+          style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', fontSize: 12.5, padding: '4px 0', marginTop: 4 }}
+        >
+          ↺ Clear Signature
+        </button>
+      </div>
+
+      {/* Plan pill */}
+      {plan && (
+        <div style={{
+          padding: '12px 16px', borderRadius: 10,
+          background: '#111', color: '#fff',
+          fontSize: 13, fontWeight: 600, marginBottom: 16,
+        }}>
+          ✓ {PLAN_LABELS[plan]}
+        </div>
+      )}
+
+      {/* Notice */}
+      <div style={{ fontSize: 11.5, color: '#777', lineHeight: 1.65, marginBottom: 20 }}>
+        You will <strong style={{ color: '#444' }}>not</strong> be charged right away. Your payment info is collected now and you will only be billed once your personalized meal plan and workout plan are complete.
+      </div>
+
+      {/* CTA */}
+      <button
+        onClick={handleSubmit}
+        disabled={loading}
+        style={{
+          padding: '16px 0', borderRadius: 13, border: 'none',
+          cursor: loading ? 'not-allowed' : 'pointer',
+          background: loading ? '#777' : 'linear-gradient(135deg, #000 0%, #383838 100%)',
+          color: '#fff', fontSize: 16, fontWeight: 700,
+          boxShadow: '0 8px 28px rgba(0,0,0,.3)',
+          letterSpacing: 0.4,
+        }}
+      >
+        {loading ? 'Processing…' : 'Sign & Proceed to Payment →'}
+      </button>
+    </div>
+  )
+
   return (
     <div style={{
       minHeight: '100vh', width: '100vw',
       background: 'linear-gradient(135deg, #0f0f0f 0%, #1c1c1c 100%)',
-      padding: '40px 20px', boxSizing: 'border-box',
+      padding: isMobile ? '20px 0' : '40px 20px',
+      boxSizing: 'border-box',
       display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
     }}>
-      <div style={{
-        width: '100%', maxWidth: 1160,
-        background: '#fff', borderRadius: 24,
-        display: 'grid', gridTemplateColumns: '1.3fr 1fr',
-        boxShadow: '0 30px 80px rgba(0,0,0,.55)',
-        overflow: 'hidden',
-      }}>
-
-        {/* Left: TOS */}
-        <div style={{ padding: '44px 48px', overflowY: 'auto', maxHeight: '88vh', borderRight: '1px solid #eee' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 30 }}>
-            <svg width="48" height="48" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <polyline points="5,90 35,10 60,65 85,10 115,90" fill="none" stroke="#000" strokeWidth="14" strokeLinecap="square" strokeLinejoin="miter"/>
-            </svg>
-            <div>
-              <div style={{ fontSize: 11, letterSpacing: 4, color: '#999', fontWeight: 700, textTransform: 'uppercase' }}>Sculpt By</div>
-              <div style={{ fontSize: 22, fontWeight: 900, letterSpacing: 0.5, lineHeight: 1.1 }}>ASHTON</div>
-            </div>
-          </div>
-          <h2 style={{ fontSize: 21, fontWeight: 800, marginBottom: 4 }}>12-Month Coaching Agreement</h2>
-          <div style={{ fontSize: 11.5, color: '#999', letterSpacing: 2, fontWeight: 600, marginBottom: 28, textTransform: 'uppercase' }}>
-            Terms of Service
-          </div>
-          <div style={{ fontSize: 13.5, lineHeight: 1.9, color: '#222', whiteSpace: 'pre-wrap' }}>
-            {AGREEMENT_TEXT}
-          </div>
-        </div>
-
-        {/* Right: Form */}
+      {isMobile ? (
+        // ── Mobile layout: single column with tab switcher ──────────────────
         <div style={{
-          padding: '44px 38px', background: '#f6f6f6',
-          display: 'flex', flexDirection: 'column',
-          overflowY: 'auto', maxHeight: '88vh',
+          width: '100%',
+          background: '#fff',
+          borderRadius: 20,
+          overflow: 'hidden',
+          boxShadow: '0 20px 60px rgba(0,0,0,.5)',
+          margin: '0 12px',
         }}>
-          <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 22, marginTop: 0 }}>Complete &amp; Sign</h3>
-
-          {/* Payment plan */}
-          <div style={{ marginBottom: 24 }}>
-            <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 10 }}>Payment Plan</div>
-            {planCard('upfront',   'Full Upfront',  '$3,000 USD — single payment')}
-            {planCard('quarterly', 'Quarterly',      '$750 USD × 4 (every 3 months)')}
-            {planCard('half',      'Half & Half',   '$1,500 now + $1,500 next month')}
-            {errSpan('plan')}
+          {/* Sticky tab bar */}
+          <div style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 10,
+            background: '#111',
+            padding: '12px 16px 8px',
+            boxShadow: '0 2px 12px rgba(0,0,0,.3)',
+          }}>
+            <TabSwitcher />
           </div>
 
-          {/* Name */}
-          <div style={{ marginBottom: 16 }}>
-            <label style={{ fontWeight: 700, fontSize: 14, display: 'block', marginBottom: 6 }}>Full Name</label>
-            <input
-              value={form.clientName}
-              onChange={(e) => { setForm({ ...form, clientName: e.target.value }); setErrors((err) => { const n = { ...err }; delete n.clientName; return n }) }}
-              placeholder="Enter your full name"
-              style={{
-                width: '100%', padding: '12px 14px', borderRadius: 10,
-                border: `1.5px solid ${errors.clientName ? '#c00' : '#ccc'}`,
-                fontSize: 14, background: '#fff', boxSizing: 'border-box',
-              }}
-            />
-            {errSpan('clientName')}
+          {/* Panel content */}
+          <div style={{
+            background: mobileTab === 'agreement' ? '#fff' : '#f6f6f6',
+          }}>
+            {mobileTab === 'agreement' ? <AgreementPanel /> : <FormPanel />}
           </div>
-
-          {/* Date */}
-          <div style={{ marginBottom: 16 }}>
-            <label style={{ fontWeight: 700, fontSize: 14, display: 'block', marginBottom: 6 }}>Date</label>
-            <input
-              type="date"
-              value={form.date}
-              onChange={(e) => { setForm({ ...form, date: e.target.value }); setErrors((err) => { const n = { ...err }; delete n.date; return n }) }}
-              style={{
-                width: '100%', padding: '12px 14px', borderRadius: 10,
-                border: `1.5px solid ${errors.date ? '#c00' : '#ccc'}`,
-                fontSize: 14, background: '#fff', boxSizing: 'border-box',
-              }}
-            />
-            {errSpan('date')}
-          </div>
-
-          {/* Signature */}
-          <div style={{ marginBottom: 16 }}>
-            <label style={{ fontWeight: 700, fontSize: 14, display: 'block', marginBottom: 6 }}>Signature</label>
-            <SignaturePad
-              canvasRef={canvasRef}
-              hasError={!!errors.signature}
-              onBegin={() => setErrors((err) => { const n = { ...err }; delete n.signature; return n })}
-            />
-            {errSpan('signature')}
-            <button
-              type="button"
-              onClick={clearSignature}
-              style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', fontSize: 12.5, padding: '4px 0', marginTop: 4 }}
-            >
-              ↺ Clear Signature
-            </button>
-          </div>
-
-          {/* Plan pill */}
-          {plan && (
-            <div style={{
-              padding: '12px 16px', borderRadius: 10,
-              background: '#111', color: '#fff',
-              fontSize: 13, fontWeight: 600, marginBottom: 16,
-            }}>
-              ✓ {PLAN_LABELS[plan]}
-            </div>
-          )}
-
-          {/* Notice */}
-          <div style={{ fontSize: 11.5, color: '#777', lineHeight: 1.65, marginBottom: 20 }}>
-            You will <strong style={{ color: '#444' }}>not</strong> be charged right away. Your payment info is collected now and you will only be billed once your personalized meal plan and workout plan are complete.
-          </div>
-
-          {/* CTA */}
-          <button
-            onClick={handleSubmit}
-            disabled={loading}
-            style={{
-              padding: '16px 0', borderRadius: 13, border: 'none',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              background: loading ? '#777' : 'linear-gradient(135deg, #000 0%, #383838 100%)',
-              color: '#fff', fontSize: 16, fontWeight: 700,
-              boxShadow: '0 8px 28px rgba(0,0,0,.3)',
-              letterSpacing: 0.4,
-            }}
-          >
-            {loading ? 'Processing…' : 'Sign & Proceed to Payment →'}
-          </button>
         </div>
-      </div>
+      ) : (
+        // ── Desktop layout: side-by-side ────────────────────────────────────
+        <div style={{
+          width: '100%', maxWidth: 1160,
+          background: '#fff', borderRadius: 24,
+          display: 'grid', gridTemplateColumns: '1.3fr 1fr',
+          boxShadow: '0 30px 80px rgba(0,0,0,.55)',
+          overflow: 'hidden',
+        }}>
+          <AgreementPanel />
+          <FormPanel />
+        </div>
+      )}
     </div>
   )
 }

@@ -1,14 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
 
 const REGISTER_URL = 'http://localhost:5000/register'
 
-// NOTE: Data is now sent to REGISTER_URL and user redirected to Calendly after final submit
-
 interface Question {
   id: string
-  type: 'text' | 'email' | 'phone' | 'textarea' | 'multiple-choice' | 'age' | 'gender' | 'yes-no' | 'scale' | 'guardian' | 'name' | 'password' | 'avatar' | 'budget-start' | 'budget-total'
+  type: 'text' | 'email' | 'phone' | 'textarea' | 'multiple-choice' | 'age' | 'gender' | 'yes-no' | 'scale' | 'guardian' | 'name' | 'password' | 'avatar' | 'budget-start' | 'budget-total' | 'radio'
   question: string
   options?: string[]
   placeholder?: string
@@ -16,20 +15,18 @@ interface Question {
   multiple?: boolean
 }
 
-// Budget options for starting investment (quarterly)
 const STARTING_BUDGET_OPTIONS = [
-  { label: 'Under $750', value: 'under_750', passes: false },
-  { label: '$750 – $999', value: '750_999', passes: true },
-  { label: '$1,000 – $1,499', value: '1000_1499', passes: true },
-  { label: '$1,500+', value: '1500_plus', passes: true },
+  { label: 'Under $750',      value: 'under_750',   passes: false },
+  { label: '$750 - $999',     value: '750_999',     passes: true  },
+  { label: '$1,000 - $1,499', value: '1000_1499',   passes: true  },
+  { label: '$1,500+',         value: '1500_plus',   passes: true  },
 ]
 
-// Budget options for total program investment
 const TOTAL_BUDGET_OPTIONS = [
-  { label: 'Under $1,000', value: 'under_1000', passes: false },
-  { label: '$1,000 – $1,999', value: '1000_1999', passes: false },
-  { label: '$2,000 – $2,999', value: '2000_2999', passes: false },
-  { label: '$3,000+', value: '3000_plus', passes: true },
+  { label: 'Under $1,000',    value: 'under_1000',  passes: false },
+  { label: '$1,000 - $1,999', value: '1000_1999',   passes: false },
+  { label: '$2,000 - $2,999', value: '2000_2999',   passes: false },
+  { label: '$3,000+',         value: '3000_plus',   passes: true  },
 ]
 
 const questions: Question[] = [
@@ -37,13 +34,7 @@ const questions: Question[] = [
     id: 'goal',
     type: 'multiple-choice',
     question: 'What is your primary fitness/personal goal? (This can be multiple things!)',
-    options: [
-      'Fat Loss (cut)',
-      'Muscle Gain (bulk)',
-      'Recomposition (tone)',
-      'Improve flexibility/mobility',
-      'Event/Sport-specific training'
-    ],
+    options: ['Fat Loss (cut)', 'Muscle Gain (bulk)', 'Recomposition (tone)', 'Improve flexibility/mobility', 'Event/Sport-specific training'],
     multiple: true,
     required: true,
   },
@@ -85,19 +76,17 @@ const questions: Question[] = [
   {
     id: 'commitment',
     type: 'yes-no',
-    question: 'My online coaching requires a financial\n commitment, are  you ready to invest in yourself? \n(Personalized workouts, personalized nutrition,  1-3 check-in\n days per week, all-around support)',
+    question: 'My online coaching requires a financial\n commitment, are you ready to invest in yourself? \n(Personalized workouts, personalized nutrition, 1-3 check-in\n days per week, all-around support)',
     options: ["Yes I'm ready to commit", 'No I am not ready'],
     required: true,
   },
   {
     id: 'experience',
     type: 'textarea',
-    question: 'What do you want to get most from this experience?\n How do you imagine feeling once you\'ve built new \nhabits and the confidence you deserve?',
+    question: "What do you want to get most from this experience?\n How do you imagine feeling once you've built new \nhabits and the confidence you deserve?",
     placeholder: '',
     required: true,
   },
-
-  // --- ADDITIONAL QUESTIONS TO SEND TO /register ---
   {
     id: 'height',
     type: 'text',
@@ -124,6 +113,27 @@ const questions: Question[] = [
     type: 'yes-no',
     question: 'Do you currently prepare your meals in advance?',
     options: ['Yes', 'No'],
+    required: false,
+  },
+  // ✅ NEW
+  {
+    id: 'exerciseFrequency',
+    type: 'radio',
+    question: 'How often are you able to exercise?',
+    options: ['1-2 times per week', '3-4 times per week', '5-6 times per week', 'Daily (7 times per week)'],
+    required: false,
+  },
+  // ✅ NEW
+  {
+    id: 'activityLevel',
+    type: 'radio',
+    question: 'How active are you in your weekly routine?',
+    options: [
+      'Sedentary - Little to no physical activity',
+      'Lightly Active - Light exercise 1-3 days per week',
+      'Moderately Active - Moderate exercise 3-5 days per week',
+      'Very Active - Heavy exercise 6-7 days per week',
+    ],
     required: false,
   },
   {
@@ -161,7 +171,6 @@ const questions: Question[] = [
     placeholder: 'e.g. grilled chicken salad, oats & fruit',
     required: false,
   },
-
   {
     id: 'fruits',
     type: 'text',
@@ -197,7 +206,6 @@ const questions: Question[] = [
     placeholder: 'e.g. chicken, beef',
     required: false,
   },
-
   {
     id: 'caffeine',
     type: 'yes-no',
@@ -219,7 +227,6 @@ const questions: Question[] = [
     options: ['Yes', 'No'],
     required: false,
   },
-
   {
     id: 'injuriesOrSurgeries',
     type: 'text',
@@ -241,12 +248,12 @@ const questions: Question[] = [
     placeholder: 'List or "None"',
     required: false,
   },
-
+  // ✅ REWORDED with context
   {
     id: 'occupation',
-    type: 'text',
-    question: 'What is your occupation?',
-    placeholder: '',
+    type: 'textarea',
+    question: 'What is your occupation?\n\nIf you\'re unemployed, or entrepreneurial and don\'t sit at a desk all day... feel free to leave this blank.\n\nIf you\'re not an entrepreneur, please answer as either: Full Time, or Part Time.',
+    placeholder: 'Type your answer here...',
     required: false,
   },
   {
@@ -263,12 +270,12 @@ const questions: Question[] = [
     placeholder: '',
     required: false,
   },
-
+  // ✅ REWORDED to radio
   {
     id: 'fitnessLevel',
-    type: 'text',
-    question: 'How would you rate your current fitness level?',
-    placeholder: 'e.g. beginner / intermediate / advanced',
+    type: 'radio',
+    question: 'How would you describe your current fitness level?',
+    options: ['Beginner', 'Intermediate', 'Advanced'],
     required: false,
   },
   {
@@ -292,7 +299,6 @@ const questions: Question[] = [
     options: ['Yes', 'No'],
     required: false,
   },
-
   {
     id: 'dailyRoutine',
     type: 'textarea',
@@ -303,11 +309,10 @@ const questions: Question[] = [
   {
     id: 'weeklyWorkoutSplit',
     type: 'textarea',
-    question: 'What does your weekly workout split look like? (If you don\'t have one, leave blank.)',
+    question: "What does your weekly workout split look like? (If you don't have one, leave blank.)",
     placeholder: 'Example: Monday = Legs, Tuesday = Push...',
     required: false,
   },
-
   {
     id: 'motivation',
     type: 'textarea',
@@ -325,28 +330,24 @@ const questions: Question[] = [
   {
     id: 'coachNotes',
     type: 'textarea',
-    question: 'Is there anything you\'d like me to know, as your new Online fitness Coach?',
+    question: "Is there anything you'd like me to know, as your new Online fitness Coach?",
     placeholder: '',
     required: false,
   },
-
-  // ✅ NEW: Budget filter question 1 — Starting investment (quarterly)
+  // ✅ Budget filters
   {
     id: 'budgetStart',
     type: 'budget-start',
     question: 'To get started, coaching is billed quarterly at $750.\nWhat starting investment are you comfortable with?',
     required: true,
   },
-
-  // ✅ NEW: Budget filter question 2 — Total program investment (from image)
   {
     id: 'budgetTotal',
     type: 'budget-total',
     question: 'If accepted into the program, what level of investment are you comfortable making toward your full transformation?',
     required: true,
   },
-
-  // Name, contact and account fields
+  // Contact & account
   {
     id: 'name',
     type: 'name',
@@ -384,47 +385,114 @@ const questions: Question[] = [
   },
 ]
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function checkBudgetPasses(answers: Record<string, any>): { passes: boolean; failedField: 'budgetStart' | 'budgetTotal' | null } {
   const startOpt = STARTING_BUDGET_OPTIONS.find((o) => o.value === answers['budgetStart'])
   const totalOpt = TOTAL_BUDGET_OPTIONS.find((o) => o.value === answers['budgetTotal'])
-
   if (startOpt && !startOpt.passes) return { passes: false, failedField: 'budgetStart' }
   if (totalOpt && !totalOpt.passes) return { passes: false, failedField: 'budgetTotal' }
   return { passes: true, failedField: null }
 }
 
-// ── Component ─────────────────────────────────────────────────────────────────
+// ── Intro Screens ─────────────────────────────────────────────────────────────
+
+type Stage = 'who-for' | 'who-not-for' | 'questions'
+
+function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
+  return (
+    <section className="min-h-screen bg-[#E5E7EB] flex items-center justify-center py-16 px-4">
+      <div className="max-w-2xl w-full">
+        <p className="text-xs tracking-[4px] uppercase text-black-500 font-bold mb-6">Before you begin</p>
+        <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">Who This Is For</h2>
+        <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-10">
+          <p>This is for individuals who know they&apos;re capable of more and are ready to prove it to themselves.</p>
+          <p>You already have the ambition, the drive, and the desire to level up &mdash; you just need the right structure, guidance, and accountability to bring it out of you fully.</p>
+          <p>You&apos;re ready to invest in yourself, ready to execute, and ready to be held to a higher standard. You&apos;re not here to &ldquo;try.&rdquo; You&apos;re here to transform.</p>
+          <p>You&apos;re serious about changing your physique, your mindset, and the way you show up in your life.</p>
+        </div>
+        <button
+          onClick={onContinue}
+          className="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg tracking-wide hover:bg-black-100 transition-all"
+        >
+          Continue &rarr;
+        </button>
+      </div>
+    </section>
+  )
+}
+
+function WhoThisIsNotForScreen({ onContinue }: { onContinue: () => void }) {
+  return (
+    <section className="min-h-screen bg-[#E5E7EB] flex items-center justify-center py-16 px-4">
+      <div className="max-w-2xl w-full">
+        <p className="text-xs tracking-[4px] uppercase text-black-500 font-bold mb-6">Important</p>
+        <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">
+          Who This Is <span className="underline decoration-black-500">NOT</span> For
+        </h2>
+        <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-6">
+          <p>This is not for people looking for shortcuts or quick fixes.</p>
+          <p>This is not for people who make excuses, avoid accountability, or aren&apos;t ready to commit to themselves fully.</p>
+          <p>If you&apos;re unsure, hesitant, or not ready to invest in yourself mentally and financially, this isn&apos;t for you.</p>
+          <p className="text-black font-semibold">This program is for serious individuals only.</p>
+        </div>
+        <div className="border-t border-[#222] my-8" />
+        <div className="space-y-4 text-black-300 text-lg leading-relaxed mb-10">
+          <p className="text-black font-semibold text-xl">If that&apos;s you &mdash; let&apos;s get started.</p>
+          <p>Complete the questionnaire below and take the first real step toward the version of yourself you&apos;ve been waiting to become.</p>
+        </div>
+        <button
+          onClick={onContinue}
+          className="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg tracking-wide hover:bg-black-100 transition-all"
+        >
+          Start the Questionnaire &rarr;
+        </button>
+      </div>
+    </section>
+  )
+}
+
+// ── Main Component ────────────────────────────────────────────────────────────
 
 export default function QuestionnaireSection() {
+  const [stage, setStage] = useState<Stage>('who-for')
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, any>>({})
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
-  // 'questions' | 'declined' | 'success'
   const [endState, setEndState] = useState<'questions' | 'declined' | 'success'>('questions')
   const dropRef = useRef<HTMLLabelElement | null>(null)
   const currentQuestion = questions[currentStep]
   const progress = ((currentStep + 1) / questions.length) * 100
 
-  useEffect(() => {
-    setErrors({})
-  }, [currentStep])
+  useEffect(() => { setErrors({}) }, [currentStep])
 
   useEffect(() => {
     const el = dropRef.current
     if (!el) return
     const onDragOver = (e: DragEvent) => { e.preventDefault(); el.classList.add('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]') }
     const onDragLeave = () => el.classList.remove('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]')
-    const onDrop = (e: DragEvent) => { e.preventDefault(); el.classList.remove('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]'); const f = e.dataTransfer?.files[0]; if (f) handleAvatarChange(f) }
+    const onDrop = (e: DragEvent) => {
+      e.preventDefault()
+      el.classList.remove('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]')
+      const f = e.dataTransfer?.files[0]
+      if (f) handleAvatarChange(f)
+    }
     el.addEventListener('dragover', onDragOver)
     el.addEventListener('dragleave', onDragLeave)
     el.addEventListener('drop', onDrop)
-    return () => { el.removeEventListener('dragover', onDragOver); el.removeEventListener('dragleave', onDragLeave); el.removeEventListener('drop', onDrop) }
+    return () => {
+      el.removeEventListener('dragover', onDragOver)
+      el.removeEventListener('dragleave', onDragLeave)
+      el.removeEventListener('drop', onDrop)
+    }
   }, [])
+
+  // Show intro screens first
+  if (stage === 'who-for') return <WhoThisIsForScreen onContinue={() => setStage('who-not-for')} />
+  if (stage === 'who-not-for') return <WhoThisIsNotForScreen onContinue={() => setStage('questions')} />
 
   const validateAnswersForQuestion = (question: Question, answersObj: Record<string, any>) => {
     if (!question.required) return true
@@ -448,7 +516,6 @@ export default function QuestionnaireSection() {
       })
       return
     }
-
     setAnswers((prev) => {
       const next = { ...prev, [currentQuestion.id]: value }
       if (errors[currentQuestion.id]) setErrors((prevErr) => { const u = { ...prevErr }; delete u[currentQuestion.id]; return u })
@@ -467,7 +534,6 @@ export default function QuestionnaireSection() {
 
   const validateCurrentStep = (): boolean => {
     if (!currentQuestion.required) return true
-
     if (currentQuestion.type === 'name') {
       if (!answers['firstName'] || !answers['lastName']) { setErrors((prev) => ({ ...prev, [currentQuestion.id]: 'Please fill in all the fields' })); return false }
     } else if (currentQuestion.type === 'password') {
@@ -493,48 +559,58 @@ export default function QuestionnaireSection() {
     }
   }
 
-  const handlePrevious = () => {
-    if (currentStep > 0) setCurrentStep((prev) => prev - 1)
-  }
+  const handlePrevious = () => { if (currentStep > 0) setCurrentStep((prev) => prev - 1) }
 
-  // ── Budget selector renderers ────────────────────────────────────────────
+  const renderBudgetOptions = (options: { label: string; value: string; passes: boolean }[], fieldKey: string) => (
+    <div className="grid grid-cols-1 gap-3 w-full max-w-xl mx-auto">
+      {options.map((opt) => {
+        const selected = answers[fieldKey] === opt.value
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => {
+              setAnswers((prev) => ({ ...prev, [fieldKey]: opt.value }))
+              if (errors[fieldKey]) setErrors((prev) => { const u = { ...prev }; delete u[fieldKey]; return u })
+            }}
+            className={`w-full px-6 py-5 rounded-[30px] border-2 text-left font-bold text-base transition-all ${selected ? 'bg-white border-[#5A5A5A] text-black-900 shadow-md ring-1 ring-[#5A5A5A]' : 'bg-white border-black-300 text-black-700 hover:border-black-400'}`}
+          >
+            <span className="flex items-center gap-3">
+              <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${selected ? 'border-[#5A5A5A] bg-[#5A5A5A]' : 'border-black-400'}`}>
+                {selected && <span className="w-2 h-2 rounded-full bg-white block" />}
+              </span>
+              {opt.label}
+            </span>
+          </button>
+        )
+      })}
+    </div>
+  )
 
-  const renderBudgetOptions = (
-    options: { label: string; value: string; passes: boolean }[],
-    fieldKey: string
-  ) => {
+  // ✅ NEW: Radio renderer for single-select stacked options
+  const renderRadioOptions = () => {
+    if (!currentQuestion.options) return null
     return (
-      <div className="grid grid-cols-1 gap-3 w-full max-w-xl mx-auto">
-        {options.map((opt) => {
-          const selected = answers[fieldKey] === opt.value
+      <div className="flex flex-col gap-3 w-full max-w-xl mx-auto">
+        {currentQuestion.options.map((opt) => {
+          const selected = answers[currentQuestion.id] === opt
           return (
             <button
-              key={opt.value}
+              key={opt}
               type="button"
-              onClick={() => {
-                setAnswers((prev) => ({ ...prev, [fieldKey]: opt.value }))
-                if (errors[fieldKey]) setErrors((prev) => { const u = { ...prev }; delete u[fieldKey]; return u })
-              }}
-              className={`w-full px-6 py-5 rounded-[30px] border-2 text-left font-bold text-base transition-all ${
-                selected
-                  ? 'bg-white border-[#5A5A5A] text-gray-900 shadow-md ring-1 ring-[#5A5A5A]'
-                  : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400'
-              }`}
+              onClick={() => handleAnswer(opt, true)}
+              className={`w-full px-6 py-4 rounded-[30px] border-2 text-left font-semibold flex items-center gap-3 transition-all ${selected ? 'bg-white border-[#5A5A5A] text-black-900 shadow-sm ring-1 ring-[#5A5A5A]' : 'bg-white border-black-300 text-black-700 hover:border-black-400'}`}
             >
-              <span className="flex items-center gap-3">
-                <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${selected ? 'border-[#5A5A5A] bg-[#5A5A5A]' : 'border-gray-400'}`}>
-                  {selected && <span className="w-2 h-2 rounded-full bg-white block" />}
-                </span>
-                {opt.label}
+              <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${selected ? 'border-[#5A5A5A] bg-[#5A5A5A]' : 'border-black-400'}`}>
+                {selected && <span className="w-2 h-2 rounded-full bg-white block" />}
               </span>
+              {opt}
             </button>
           )
         })}
       </div>
     )
   }
-
-  // ── Options renderer ─────────────────────────────────────────────────────
 
   const renderOptionsHardCoded = () => {
     if (!currentQuestion.options) return null
@@ -545,12 +621,12 @@ export default function QuestionnaireSection() {
       rows.push(
         <div key={i} className="flex justify-center gap-4 mb-4">
           <button type="button" onClick={() => handleAnswer(first, !currentQuestion.multiple)}
-            className={`px-6 py-4 rounded-[30px] border-2 text-center font-bold w-[350px] ${(Array.isArray(answers[currentQuestion.id]) ? answers[currentQuestion.id].includes(first) : answers[currentQuestion.id] === first) ? 'bg-white border-[#5A5A5A] text-gray-900 shadow-sm ring-1 ring-[#E6E7E9]' : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400'}`}>
+            className={`px-6 py-4 rounded-[30px] border-2 text-center font-bold w-[350px] ${(Array.isArray(answers[currentQuestion.id]) ? answers[currentQuestion.id].includes(first) : answers[currentQuestion.id] === first) ? 'bg-white border-[#5A5A5A] text-black-900 shadow-sm ring-1 ring-[#E6E7E9]' : 'bg-white border-black-300 text-black-700 hover:border-black-400'}`}>
             {first}
           </button>
           {second && (
             <button type="button" onClick={() => handleAnswer(second, !currentQuestion.multiple)}
-              className={`px-6 py-4 rounded-[30px] border-2 text-center font-bold w-[350px] ${(Array.isArray(answers[currentQuestion.id]) ? answers[currentQuestion.id].includes(second) : answers[currentQuestion.id] === second) ? 'bg-white border-[#5A5A5A] text-gray-900 shadow-sm ring-1 ring-[#E6E7E9]' : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400'}`}>
+              className={`px-6 py-4 rounded-[30px] border-2 text-center font-bold w-[350px] ${(Array.isArray(answers[currentQuestion.id]) ? answers[currentQuestion.id].includes(second) : answers[currentQuestion.id] === second) ? 'bg-white border-[#5A5A5A] text-black-900 shadow-sm ring-1 ring-[#E6E7E9]' : 'bg-white border-black-300 text-black-700 hover:border-black-400'}`}>
               {second}
             </button>
           )}
@@ -569,7 +645,9 @@ export default function QuestionnaireSection() {
     if (!file) { setAnswers((prev) => { const n = { ...prev }; delete n['avatarFile']; return n }); setAvatarPreview(null); return }
     if (file.size > 5 * 1024 * 1024) { setServerError('Avatar must be < 5MB'); return }
     setAnswers((prev) => ({ ...prev, avatarFile: file }))
-    const reader = new FileReader(); reader.onload = (e) => setAvatarPreview(e.target?.result as string); reader.readAsDataURL(file)
+    const reader = new FileReader()
+    reader.onload = (e) => setAvatarPreview(e.target?.result as string)
+    reader.readAsDataURL(file)
   }
 
   const renderInput = () => {
@@ -577,6 +655,9 @@ export default function QuestionnaireSection() {
     const hasError = !!errors[currentQuestion.id]
 
     switch (currentQuestion.type) {
+      case 'radio':
+        return renderRadioOptions()
+
       case 'budget-start':
         return renderBudgetOptions(STARTING_BUDGET_OPTIONS, 'budgetStart')
 
@@ -588,51 +669,52 @@ export default function QuestionnaireSection() {
         return (
           <input key={currentQuestion.id} type={currentQuestion.type === 'email' ? 'email' : 'text'} value={value}
             onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder} autoComplete="off"
-            className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent`} />
+            className={`w-full px-4 py-3 rounded-lg border bg-white text-black-900 ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'} focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent`} />
         )
 
       case 'password':
         return (
           <input key={currentQuestion.id} type="password" value={value} onChange={(e) => handleAnswer(e.target.value)}
             placeholder={currentQuestion.placeholder || 'At least 6 characters'} autoComplete="new-password"
-            className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent`} />
+            className={`w-full px-4 py-3 rounded-lg border bg-white text-black-900 ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'} focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent`} />
         )
 
       case 'name':
         return (
           <div className="grid grid-cols-2 gap-4">
             <input type="text" value={answers.firstName || ''} onChange={(e) => handleNameChange('firstName', e.target.value)} placeholder="First Name"
-              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
+              className={`w-full px-4 py-3 rounded-lg border bg-white text-black-900 ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'}`} />
             <input type="text" value={answers.lastName || ''} onChange={(e) => handleNameChange('lastName', e.target.value)} placeholder="Last Name"
-              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
+              className={`w-full px-4 py-3 rounded-lg border bg-white text-black-900 ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'}`} />
           </div>
         )
 
       case 'phone':
         return (
           <div className="flex gap-2">
-            <select className="px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900" value={answers.countryCode || '+92'}
+            <select className="px-4 py-3 rounded-lg border border-black-300 bg-white text-black-900" value={answers.countryCode || '+92'}
               onChange={(e) => setAnswers((prev) => ({ ...prev, countryCode: e.target.value }))}>
-              <option value="+92">🇵🇰 +92</option>
-              <option value="+1">🇺🇸 +1</option>
-              <option value="+44">🇬🇧 +44</option>
+              <option value="+92">PK +92</option>
+              <option value="+1">US +1</option>
+              <option value="+44">UK +44</option>
             </select>
             <input type="tel" value={value} onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder}
-              className={`flex-1 px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
+              className={`flex-1 px-4 py-3 rounded-lg border bg-white text-black-900 ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'}`} />
           </div>
         )
 
       case 'textarea':
         return (
-          <textarea value={value} onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder} rows={6}
-            className={`w-full px-6 py-5 rounded-lg border bg-white text-gray-900 min-h-[250px] focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent resize-y ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
+          <textarea value={value} onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder || 'Type your answer here...'} rows={6}
+            className={`w-full px-6 py-5 rounded-lg border bg-white text-black-900 min-h-[250px] focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent resize-y ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'}`} />
         )
 
       case 'scale':
         return (
           <div className="w-full">
-            <input type="range" min="1" max="10" value={value || 1} onChange={(e) => handleAnswer(e.target.value)} className="w-full h-3 bg-gray-200 rounded-lg accent-[#5A5A5A]" />
-            <div className="flex justify-between text-xs mt-2 text-gray-700">
+            <div className="text-center text-4xl font-black text-black-900 mb-4">{value || 1}</div>
+            <input type="range" min="1" max="10" value={value || 1} onChange={(e) => handleAnswer(e.target.value)} className="w-full h-3 bg-black-200 rounded-lg accent-[#5A5A5A]" />
+            <div className="flex justify-between text-xs mt-2 text-black-700">
               {[1,2,3,4,5,6,7,8,9,10].map((num) => <span key={num}>{num}</span>)}
             </div>
           </div>
@@ -642,19 +724,32 @@ export default function QuestionnaireSection() {
         return (
           <div className="flex flex-col items-center gap-4">
             <label ref={dropRef} htmlFor="avatar-file"
-              className="w-40 h-40 rounded-full bg-white border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-2 cursor-pointer overflow-hidden relative hover:border-gray-400 transition-all">
+              className="w-40 h-40 rounded-full bg-white border-2 border-dashed border-black-300 flex flex-col items-center justify-center gap-2 cursor-pointer overflow-hidden relative hover:border-black-400 transition-all">
               {avatarPreview ? (
-                <><img src={avatarPreview} alt="avatar preview" className="w-full h-full object-cover" /><div className="absolute bottom-2 right-2 bg-black/40 text-white text-xs px-2 py-1 rounded">Change</div></>
+                <>
+                  <img src={avatarPreview} alt="avatar preview" className="w-full h-full object-cover" />
+                  <div className="absolute bottom-2 right-2 bg-black/40 text-black text-xs px-2 py-1 rounded">Change</div>
+                </>
               ) : (
-                <><svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v9a2 2 0 002 2h12a2 2 0 002-2V8.414a2 2 0 00-.586-1.414l-3.414-3.414A2 2 0 0012.586 3H4zm8 6a3 3 0 11-6 0 3 3 0 016 0z" clipRule="evenodd" /></svg><div className="text-sm text-gray-600">Upload photo</div><div className="text-xs text-gray-400">Drag & drop or click</div></>
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v9a2 2 0 002 2h12a2 2 0 002-2V8.414a2 2 0 00-.586-1.414l-3.414-3.414A2 2 0 0012.586 3H4zm8 6a3 3 0 11-6 0 3 3 0 016 0z" clipRule="evenodd" />
+                  </svg>
+                  <div className="text-sm text-black-600">Upload photo</div>
+                  <div className="text-xs text-black-400">Drag & drop or click</div>
+                </>
               )}
-              <input id="avatar-file" type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; handleAvatarChange(f) }} />
+              <input id="avatar-file" type="file" accept="image/*" className="hidden"
+                onChange={(e) => { const f = e.target.files?.[0]; handleAvatarChange(f) }} />
             </label>
             {avatarPreview && (
-              <button type="button" onClick={() => { handleAvatarChange(undefined); const input = document.getElementById('avatar-file') as HTMLInputElement | null; if (input) input.value = '' }}
-                className="px-4 py-2 rounded-lg bg-white border border-gray-300 text-sm hover:bg-gray-100">Remove</button>
+              <button type="button"
+                onClick={() => { handleAvatarChange(undefined); const input = document.getElementById('avatar-file') as HTMLInputElement | null; if (input) input.value = '' }}
+                className="px-4 py-2 rounded-lg bg-white border border-black-300 text-sm hover:bg-black-100">
+                Remove
+              </button>
             )}
-            {currentQuestion.required && <p className="text-sm text-gray-600">Required</p>}
+            {currentQuestion.required && <p className="text-sm text-black-600">Required</p>}
           </div>
         )
 
@@ -670,24 +765,19 @@ export default function QuestionnaireSection() {
     }
   }
 
-  // ── Final submit ─────────────────────────────────────────────────────────
+  // ── Final submit ──────────────────────────────────────────────────────────
 
   const handleFinalSubmit = async (finalAnswers: Record<string, any>) => {
     try {
       setLoading(true)
       setServerError(null)
-
       const safeAnswers: Record<string, any> = { ...finalAnswers }
       if (safeAnswers.avatarFile) { safeAnswers.avatar = avatarPreview || ''; delete safeAnswers.avatarFile }
 
-      // ✅ Budget filter check
       const { passes } = checkBudgetPasses(safeAnswers)
-
-      // Save to localStorage regardless
       const payload = { answers: safeAnswers, timestamp: new Date().toISOString(), budgetPassed: passes }
       localStorage.setItem('questionnaire_answers', JSON.stringify(payload))
 
-      // Send to backend
       const formData = new FormData()
       for (const key in safeAnswers) {
         const val = safeAnswers[key]
@@ -705,10 +795,8 @@ export default function QuestionnaireSection() {
       }
 
       if (passes) {
-        // ✅ PASSED — redirect to Calendly
         window.location.href = 'https://calendly.com/imashtonlifts/30min'
       } else {
-        // ❌ DECLINED — show professional message
         setEndState('declined')
       }
     } catch (err: any) {
@@ -725,27 +813,24 @@ export default function QuestionnaireSection() {
     return (
       <section id="questionnaire" className="py-1 bg-[#E5E7EB] min-h-screen flex items-center">
         <div className="container mx-auto px-4 max-w-2xl text-center">
-          <div className="bg-white rounded-2xl p-10 shadow-sm border border-gray-200">
-            {/* Icon */}
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-6">
+          <div className="bg-white rounded-2xl p-10 shadow-sm border border-black-200">
+            <div className="w-16 h-16 rounded-full bg-black-100 flex items-center justify-center mx-auto mb-6">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-[#5A5A5A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
               </svg>
             </div>
-
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 heading-font">Thank You for Applying</h2>
-            <p className="text-gray-600 text-base leading-relaxed mb-6 normal-font">
-              We truly appreciate your time and the courage it takes to invest in yourself — that alone says a lot about who you are.
+            <h2 className="text-2xl font-bold text-black-900 mb-4 heading-font">Thank You for Applying</h2>
+            <p className="text-black-600 text-base leading-relaxed mb-6 normal-font">
+              We truly appreciate your time and the courage it takes to invest in yourself &mdash; that alone says a lot about who you are.
             </p>
-            <p className="text-gray-600 text-base leading-relaxed mb-6 normal-font">
-              At this time, we aren't able to move forward with your application. Our coaching program is a full-year commitment starting at <strong>$750 quarterly</strong>, and we want to make sure every client we take on is set up for long-term success — financially and physically.
+            <p className="text-black-600 text-base leading-relaxed mb-6 normal-font">
+              At this time, we aren&apos;t able to move forward with your application. Our coaching program is a full-year commitment starting at <strong>$750 quarterly</strong>, and we want to make sure every client we take on is set up for long-term success &mdash; financially and physically.
             </p>
-            <p className="text-gray-600 text-base leading-relaxed mb-8 normal-font">
-              This isn't a permanent door closing. When the timing is right and you're ready to commit fully, we'd love to hear from you again. Keep working on yourself — your transformation is worth it.
+            <p className="text-black-600 text-base leading-relaxed mb-8 normal-font">
+              This isn&apos;t a permanent door closing. When the timing is right and you&apos;re ready to commit fully, we&apos;d love to hear from you again. Keep working on yourself &mdash; your transformation is worth it.
             </p>
-
-            <div className="border-t border-gray-100 pt-6">
-              <p className="text-sm text-gray-500 normal-font">
+            <div className="border-t border-black-100 pt-6">
+              <p className="text-sm text-black-500 normal-font">
                 Questions? Feel free to reach out on Instagram for more information about future opportunities.
               </p>
             </div>
@@ -766,13 +851,13 @@ export default function QuestionnaireSection() {
           <div className="w-full h-1.5 bg-white rounded-full overflow-hidden">
             <div className="h-full bg-[#5A5A5A] transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
+          <p className="text-xs text-black-500 text-right mt-1 normal-font">{currentStep + 1} / {questions.length}</p>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl normal-font md:text-2xl font-bold text-gray-900 mb-8 text-center whitespace-pre-line">{currentQuestion.question}</h3>
+          <h3 className="text-xl normal-font md:text-2xl font-bold text-black-900 mb-8 text-center whitespace-pre-line">{currentQuestion.question}</h3>
           <div className="mb-4 normal-font">{renderInput()}</div>
           {errors[currentQuestion.id] && <p className="text-[#5A5A5A] normal-font text-sm mt-2 text-center">{errors[currentQuestion.id]}</p>}
-          {/* Also show budget-specific field errors */}
           {currentQuestion.type === 'budget-start' && errors['budgetStart'] && <p className="text-[#5A5A5A] normal-font text-sm mt-2 text-center">{errors['budgetStart']}</p>}
           {currentQuestion.type === 'budget-total' && errors['budgetTotal'] && <p className="text-[#5A5A5A] normal-font text-sm mt-2 text-center">{errors['budgetTotal']}</p>}
         </div>
@@ -781,12 +866,12 @@ export default function QuestionnaireSection() {
 
         <div className="flex justify-between normal-font gap-4 mt-12">
           <button type="button" onClick={handlePrevious} disabled={currentStep === 0 || loading}
-            className={`px-8 py-4 rounded-lg normal-font font-bold bg-transparent text-black border-2 border-[#5A5A5A] transition-all ${currentStep === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}`}>
-            ← Previous
+            className={`px-8 py-4 rounded-lg normal-font font-bold bg-transparent text-black border-2 border-[#5A5A5A] transition-all ${currentStep === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-black-100'}`}>
+            &larr; Previous
           </button>
           <button type="button" onClick={handleNext} disabled={loading}
-            className="px-8 py-4 rounded-lg normal-font font-bold bg-white text-black border-2 border-[#5A5A5A] hover:bg-gray-100 transition-all">
-            {loading ? 'Submitting...' : currentStep === questions.length - 1 ? 'Submit' : 'Next →'}
+            className="px-8 py-4 rounded-lg normal-font font-bold bg-white text-black border-2 border-[#5A5A5A] hover:bg-black-100 transition-all">
+            {loading ? 'Submitting...' : currentStep === questions.length - 1 ? 'Submit' : 'Next \u2192'}
           </button>
         </div>
       </div>
