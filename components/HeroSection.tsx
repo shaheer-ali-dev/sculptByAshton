@@ -19,7 +19,7 @@ export default function HeroSection() {
 
      {/* Premium Gradient Wishlist Banner */}
 <div
-  onClick={() => router.push('/pages/wishlist')}
+  onClick={() => router.push('/waitlist')}
   className="absolute top-0 left-0 w-full py-3 text-center text-white 
              text-xs sm:text-sm md:text-base font-semibold tracking-wider 
              cursor-pointer z-50 transition-opacity duration-300 hover:opacity-90"
@@ -107,4 +107,5 @@ export default function HeroSection() {
       </div>
     </section>
   )
+
 }
