@@ -388,11 +388,11 @@ export default function WaitlistPage() {
   useEffect(() => {
     const el = dropRef.current
     if (!el) return
-    const onDragOver = (e: DragEvent) => { e.preventDefault(); el.classList.add('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]') }
-    const onDragLeave = () => { el.classList.remove('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]') }
+    const onDragOver = (e: DragEvent) => { e.preventDefault(); el.classList.add('ring-2', 'ring-offset-2', 'ring-[#000000]') }
+    const onDragLeave = () => { el.classList.remove('ring-2', 'ring-offset-2', 'ring-[#000000]') }
     const onDrop = (e: DragEvent) => {
       e.preventDefault()
-      el.classList.remove('ring-2', 'ring-offset-2', 'ring-[#5A5A5A]')
+      el.classList.remove('ring-2', 'ring-offset-2', 'ring-[#000000]')
       const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]
       if (f) handleAvatarChange(f)
     }
@@ -507,7 +507,7 @@ export default function WaitlistPage() {
             onClick={() => handleAnswer(first, !currentQuestion.multiple)}
             className={`px-6 py-4 rounded-[30px] border-2 text-center font-bold w-[350px] ${
               (Array.isArray(answers[currentQuestion.id]) ? answers[currentQuestion.id].includes(first) : answers[currentQuestion.id] === first)
-                ? 'bg-white border-[#5A5A5A] text-gray-900 shadow-sm ring-1 ring-[#E6E7E9]'
+                ? 'bg-white border-[#000000] text-gray-900 shadow-sm ring-1 ring-[#E6E7E9]'
                 : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400'
             }`}
           >
@@ -519,7 +519,7 @@ export default function WaitlistPage() {
               onClick={() => handleAnswer(second, !currentQuestion.multiple)}
               className={`px-6 py-4 rounded-[30px] border-2 text-center font-bold w-[350px] ${
                 (Array.isArray(answers[currentQuestion.id]) ? answers[currentQuestion.id].includes(second) : answers[currentQuestion.id] === second)
-                  ? 'bg-white border-[#5A5A5A] text-gray-900 shadow-sm ring-1 ring-[#E6E7E9]'
+                  ? 'bg-white border-[#000000] text-gray-900 shadow-sm ring-1 ring-[#E6E7E9]'
                   : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400'
               }`}
             >
@@ -567,7 +567,7 @@ export default function WaitlistPage() {
             onChange={(e) => handleAnswer(e.target.value)}
             placeholder={currentQuestion.placeholder}
             autoComplete="off"
-            className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent`}
+            className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#000000]' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-[#000000] focus:border-transparent`}
           />
         )
 
@@ -580,7 +580,7 @@ export default function WaitlistPage() {
             onChange={(e) => handleAnswer(e.target.value)}
             placeholder={currentQuestion.placeholder || 'At least 6 characters'}
             autoComplete="new-password"
-            className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent`}
+            className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#000000]' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-[#000000] focus:border-transparent`}
           />
         )
 
@@ -588,9 +588,9 @@ export default function WaitlistPage() {
         return (
           <div className="grid grid-cols-2 gap-4">
             <input type="text" value={answers.firstName || ''} onChange={(e) => handleNameChange('firstName', e.target.value)} placeholder="First Name"
-              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
+              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#000000]' : 'border-gray-300'}`} />
             <input type="text" value={answers.lastName || ''} onChange={(e) => handleNameChange('lastName', e.target.value)} placeholder="Last Name"
-              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
+              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#000000]' : 'border-gray-300'}`} />
           </div>
         )
 
@@ -604,21 +604,21 @@ export default function WaitlistPage() {
               <option value="+44">🇬🇧 +44</option>
             </select>
             <input type="tel" value={value} onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder}
-              className={`flex-1 px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
+              className={`flex-1 px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#000000]' : 'border-gray-300'}`} />
           </div>
         )
 
       case 'textarea':
         return (
           <textarea value={value} onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder} rows={6}
-            className={`w-full px-6 py-5 rounded-lg border bg-white text-gray-900 min-h-[250px] focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent resize-y ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
+            className={`w-full px-6 py-5 rounded-lg border bg-white text-gray-900 min-h-[250px] focus:outline-none focus:ring-2 focus:ring-[#000000] focus:border-transparent resize-y ${hasError ? 'border-[#000000]' : 'border-gray-300'}`} />
         )
 
       case 'scale':
         return (
           <div className="w-full">
             <input type="range" min="1" max="10" value={value || 1} onChange={(e) => handleAnswer(e.target.value)}
-              className="w-full h-3 bg-gray-200 rounded-lg accent-[#5A5A5A]" />
+              className="w-full h-3 bg-gray-200 rounded-lg accent-[#000000]" />
             <div className="flex justify-between text-xs mt-2 text-gray-700">
               {[1,2,3,4,5,6,7,8,9,10].map(num => <span key={num}>{num}</span>)}
             </div>
@@ -792,11 +792,11 @@ export default function WaitlistPage() {
             <p className="text-lg text-black mb-6 normal-font">
               Congratulations! You've secured your spot in this exclusive special offer.
               {spotsLeft !== null && spotsLeft > 0 && (
-                <span className="block mt-2 font-semibold text-[#5A5A5A]">Only {spotsLeft} spot{spotsLeft !== 1 ? 's' : ''} remaining!</span>
+                <span className="block mt-2 font-semibold text-[#000000]">Only {spotsLeft} spot{spotsLeft !== 1 ? 's' : ''} remaining!</span>
               )}
             </p>
             <p className="text-black normal-font mb-8">We'll contact you soon with next steps. Check your email for confirmation!</p>
-            <a href="/" className="inline-block px-8 py-4 bg-[#5A5A5A] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font">Return to Home</a>
+            <a href="/" className="inline-block px-8 py-4 bg-[#000000] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font">Return to Home</a>
           </div>
         </div>
       </div>
@@ -816,7 +816,7 @@ export default function WaitlistPage() {
             <h1 className="text-3xl font-bold text-black mb-4 heading-font">Waitlist Full</h1>
             <p className="text-lg text-black mb-6 normal-font">Sorry, all spots have been filled. This exclusive offer is now closed.</p>
             <p className="text-black normal-font mb-8">Stay tuned for future opportunities by following us on social media!</p>
-            <a href="/" className="inline-block px-8 py-4 bg-[#5A5A5A] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font">Return to Home</a>
+            <a href="/" className="inline-block px-8 py-4 bg-[#000000] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font">Return to Home</a>
           </div>
         </div>
       </div>
@@ -836,7 +836,7 @@ export default function WaitlistPage() {
             <h1 className="text-3xl font-bold text-black mb-4 heading-font">Oops! Something went wrong</h1>
             <p className="text-lg text-black mb-8 normal-font">We couldn't submit your application. Please try again.</p>
             <button onClick={() => { setSubmissionStatus('idle'); setCurrentStep(0) }}
-              className="inline-block px-8 py-4 bg-[#5A5A5A] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font">
+              className="inline-block px-8 py-4 bg-[#000000] text-white rounded-lg font-semibold hover:bg-[#FF5A8A] transition-all normal-font">
               Try Again
             </button>
           </div>
@@ -853,16 +853,16 @@ export default function WaitlistPage() {
             🔥 EXCLUSIVE SPECIAL OFFER 🔥
           </div>
           {spotsLeft !== null && (
-            <p className="text-[#5A5A5A] font-semibold text-xl">{spotsLeft} / 125 Spots Remaining</p>
+            <p className="text-[#000000] font-semibold text-xl">{spotsLeft} / 125 Spots Remaining</p>
           )}
         </div>
 
-        <h2 className="text-4xl heading-font md:text-5xl font-bold text-[#5A5A5A] mb-6 text-center">Join the Waitlist</h2>
+        <h2 className="text-4xl heading-font md:text-5xl font-bold text-[#000000] mb-6 text-center">Join the Waitlist</h2>
         <p className="text-center text-black mb-12 normal-font text-lg">Limited spots — don't miss this exclusive training opportunity!</p>
 
         <div className="mb-12">
           <div className="w-full h-1.5 bg-white rounded-full overflow-hidden">
-            <div className="h-full bg-[#5A5A5A] transition-all duration-300" style={{ width: `${progress}%` }} />
+            <div className="h-full bg-[#000000] transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         </div>
 
@@ -872,10 +872,10 @@ export default function WaitlistPage() {
           </h3>
           <div className="mb-4 normal-font">{renderInput()}</div>
           {currentQuestion.type === 'scale' && (
-            <div className="text-center text-2xl font-bold text-[#5A5A5A] mt-4">{answers[currentQuestion.id] || 1}</div>
+            <div className="text-center text-2xl font-bold text-[#000000] mt-4">{answers[currentQuestion.id] || 1}</div>
           )}
           {errors[currentQuestion.id] && (
-            <p className="text-[#5A5A5A] normal-font text-sm mt-2 text-center">{errors[currentQuestion.id]}</p>
+            <p className="text-[#000000] normal-font text-sm mt-2 text-center">{errors[currentQuestion.id]}</p>
           )}
         </div>
 
@@ -887,7 +887,7 @@ export default function WaitlistPage() {
           <button type="button"
             onClick={() => { if (currentStep < questions.length - 1) { if (validateCurrentStep()) handleNext() } else { if (validateCurrentStep()) handleFinalSubmit(answers) } }}
             disabled={isSubmitting}
-            className="px-8 py-4 rounded-lg normal-font font-semibold bg-[#5A5A5A] text-white border-2 border-[#5A5A5A] hover:bg-[#FF5A8A] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+            className="px-8 py-4 rounded-lg normal-font font-semibold bg-[#000000] text-white border-2 border-[#000000] hover:bg-[#FF5A8A] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
             {isSubmitting ? 'Submitting...' : currentStep === questions.length - 1 ? 'Join Waitlist' : 'Next \u2192'}
           </button>
         </div>
@@ -895,3 +895,4 @@ export default function WaitlistPage() {
     </section>
   )
 }
+
