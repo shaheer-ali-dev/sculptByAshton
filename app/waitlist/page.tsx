@@ -849,11 +849,9 @@ export default function WaitlistPage() {
     <section className="py-20 bg-[#FAF9F6] min-h-screen">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-8">
-          <div className="inline-block bg-black text-white px-6 py-3 rounded-full font-bold text-lg mb-4">
-            🔥 EXCLUSIVE SPECIAL OFFER 🔥
-          </div>
+          
           {spotsLeft !== null && (
-            <p className="text-[#000000] font-semibold text-xl">{spotsLeft} / 125 Spots Remaining</p>
+            <p className="text-[#000000] font-semibold text-xl">🔥 {spotsLeft} / 125 Spots Remaining 🔥</p>
           )}
         </div>
 
@@ -895,4 +893,5 @@ export default function WaitlistPage() {
     </section>
   )
 }
+
 
