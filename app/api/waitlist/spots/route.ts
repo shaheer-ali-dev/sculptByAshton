@@ -24,12 +24,12 @@ export async function GET() {
     const groups = loadAllGroupsFromFile();
     const currentGroup = groups[groups.length - 1] || { entries: [] };
     const filled = currentGroup.entries.length;
-    const spotsLeft = Math.max(0, 125 - filled);
-    const isFull = filled >= 125;
+    const spotsLeft = Math.max(0, 100 - filled);
+    const isFull = filled >= 100;
 
     return NextResponse.json(
       {
-        total: 125,
+        total: 100,
         filled,
         spotsLeft,
         isFull,
@@ -41,3 +41,4 @@ export async function GET() {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
