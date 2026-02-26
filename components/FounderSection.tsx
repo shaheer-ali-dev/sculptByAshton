@@ -30,7 +30,6 @@ I never carried the idea that success wasn’t for me. If anything, the belief i
 
         <div className="md:w-1/3 flex justify-center md:justify-end">
           <div className="w-64 md:w-72 lg:w-96">
-            <img src="/images/founder.jpg" alt="Tamara Arevalo" className="w-full h-auto object-cover rounded-md" />
           </div>
         </div>
       </div>
