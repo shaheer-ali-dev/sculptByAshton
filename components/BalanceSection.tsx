@@ -52,7 +52,7 @@ export default function BalanceSection() {
             fontSize: 13,
             letterSpacing: 4,
             textTransform: 'uppercase',
-            color: '#666',
+            color: '#000000',
             fontWeight: 700,
             marginBottom: 28,
           }}>
@@ -90,17 +90,17 @@ export default function BalanceSection() {
                   width: 28,
                   height: 28,
                   borderRadius: '50%',
-                  border: '2px solid #333',
+                  border: '2px solid #000000',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginTop: 2,
                 }}>
-                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#555', display: 'block' }} />
+                  <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ffffff', display: 'block' }} />
                 </span>
                 <p style={{
                   fontSize: 'clamp(17px, 2.5vw, 22px)',
-                  color: '#aaa',
+                  color: '#000000',
                   lineHeight: 1.5,
                   margin: 0,
                   fontWeight: 400,
@@ -116,7 +116,7 @@ export default function BalanceSection() {
         <div
           style={{
             height: 1,
-            background: 'linear-gradient(90deg, transparent, #333, transparent)',
+            background: 'linear-gradient(90deg, transparent, #ffffff, transparent)',
             marginBottom: 64,
             opacity: visible ? 1 : 0,
             transition: 'opacity 0.8s ease 0.5s',
@@ -134,7 +134,7 @@ export default function BalanceSection() {
         >
           <p style={{
             fontSize: 'clamp(18px, 3vw, 26px)',
-            color: '#ccc',
+            color: '#000000',
             lineHeight: 1.75,
             fontWeight: 400,
             marginBottom: 0,
@@ -152,7 +152,7 @@ export default function BalanceSection() {
           }}>
             Good thing you absolutely&nbsp;
             <span style={{
-              background: 'linear-gradient(90deg, #fff 0%, #aaa 100%)',
+              background: 'linear-gradient(90deg, #fff 0%, #000000 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -175,7 +175,7 @@ export default function BalanceSection() {
             fontSize: 13,
             letterSpacing: 4,
             textTransform: 'uppercase',
-            color: '#555',
+            color: '#000000',
             fontWeight: 700,
             marginBottom: 28,
           }}>
@@ -192,7 +192,7 @@ export default function BalanceSection() {
                 style={{
                   padding: '28px 24px',
                   borderRadius: 16,
-                  border: '1px solid #222',
+                  border: '1px solid #fff9f9',
                   background: '#141414',
                   opacity: visible ? 1 : 0,
                   transform: visible ? 'translateY(0)' : 'translateY(20px)',
@@ -209,7 +209,7 @@ export default function BalanceSection() {
                 }}>
                   {p.label}
                 </div>
-                <div style={{ fontSize: 16, color: '#888', lineHeight: 1.6 }}>
+                <div style={{ fontSize: 16, color: '#000000', lineHeight: 1.6 }}>
                   {p.body}
                 </div>
               </div>
@@ -229,7 +229,7 @@ export default function BalanceSection() {
         >
           <p style={{
             fontSize: 'clamp(20px, 3.5vw, 32px)',
-            color: '#ddd',
+            color: '#000000',
             lineHeight: 1.65,
             fontWeight: 400,
             marginBottom: 36,
@@ -282,3 +282,4 @@ export default function BalanceSection() {
     </section>
   )
 }
+
