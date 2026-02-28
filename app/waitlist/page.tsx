@@ -851,7 +851,10 @@ export default function WaitlistPage() {
         <div className="text-center mb-8">
           
           {spotsLeft !== null && (
-            <p className="text-[#000000] font-semibold text-xl">🔥 {spotsLeft} / 100 Spots Remaining 🔥</p>
+      <div className="inline-block bg-black text-white px-6 py-3 rounded-full font-bold text-lg mb-4">
+            🔥 {spotsLeft} / 100 Spots Remaining 🔥
+          </div>
+            
           )}
         </div>
 
@@ -893,6 +896,7 @@ export default function WaitlistPage() {
     </section>
   )
 }
+
 
 
 
