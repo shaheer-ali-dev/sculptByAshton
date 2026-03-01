@@ -67,28 +67,28 @@ const questions: Question[] = [
   {
     id: 'commitment',
     type: 'yes-no',
-    question: 'My online coaching requires a financial commitment, are you ready to invest in yourself? (Personalized workouts, personalized nutrition, 1-3 check-ins per week)',
+    question: 'My online coaching requires a financial commitment, are you ready to invest in yourself?',
     options: ["Yes I'm ready to commit", 'No I am not ready'],
     required: true,
   },
   {
     id: 'experience',
     type: 'textarea',
-    question: "What do you want to get most from this experience? How do you imagine feeling once you've built new habits and the confidence you deserve?",
+    question: "What do you want to get most from this experience?\n How do you imagine feeling once you've built new habits and the confidence you deserve?",
     placeholder: '',
     required: true,
   },
   {
     id: 'height',
     type: 'text',
-    question: 'What is your height? (cm)',
+    question: 'What is your height? (ft & in)',
     placeholder: 'e.g. 180',
     required: false,
   },
   {
     id: 'weight',
     type: 'text',
-    question: 'What is your weight? (kg)',
+    question: 'What is your weight? (lbs)',
     placeholder: 'e.g. 75',
     required: false,
   },
@@ -123,6 +123,13 @@ const questions: Question[] = [
       'Moderately Active - Moderate exercise 3-5 days per week',
       'Very Active - Heavy exercise 6-7 days per week',
     ],
+    required: false,
+  },
+  {
+    id: 'workoutPreference',
+    type: 'yes-no',
+    question: 'Do you prefer...',
+    options: ['Home Workouts', 'Gym Workouts', 'Either or'],
     required: false,
   },
   {
@@ -715,6 +722,7 @@ export default function WaitlistPage() {
       if (finalAnswers.mealPrep !== undefined) formData.append('mealPrep', String(yesNoToBool(finalAnswers.mealPrep)))
       if (finalAnswers.exerciseFrequency) formData.append('exerciseFrequency', String(finalAnswers.exerciseFrequency))
       if (finalAnswers.activityLevel) formData.append('activityLevel', String(finalAnswers.activityLevel))
+      if (finalAnswers.workoutPreference) formData.append('workoutPreference', String(finalAnswers.workoutPreference))
       if (finalAnswers.weightTrainingDaysPerWeek) formData.append('weightTrainingDaysPerWeek', String(finalAnswers.weightTrainingDaysPerWeek))
       if (finalAnswers.foodAllergens) formData.append('foodAllergens', String(finalAnswers.foodAllergens))
       if (finalAnswers.foodRestrictions) formData.append('foodRestrictions', String(finalAnswers.foodRestrictions))
@@ -751,10 +759,17 @@ export default function WaitlistPage() {
         const regResp = await fetch(REGISTER_URL, { method: 'POST', body: formData })
         if (!regResp.ok) {
           let msg = 'Registration failed'
-          try { const j = await regResp.json().catch(() => null); if (j && j.msg) msg = j.msg; else if (j && j.error) msg = j.error } catch (e) {}
+          try {
+            const j = await regResp.json().catch(() => null)
+            if (j && j.msg) msg = j.msg
+            else if (j && j.error) msg = j.error
+          } catch (e) {}
           console.warn('Register request failed:', msg)
         } else {
-          try { const data = await regResp.json().catch(() => null); if (data && data.token) localStorage.setItem('token', data.token) } catch (e) {}
+          try {
+            const data = await regResp.json().catch(() => null)
+            if (data && data.token) localStorage.setItem('token', data.token)
+          } catch (e) {}
         }
       } catch (e) { console.warn('Register request error:', e) }
 
@@ -849,12 +864,10 @@ export default function WaitlistPage() {
     <section className="py-20 bg-[#FAF9F6] min-h-screen">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-8">
-          
           {spotsLeft !== null && (
-      <div className="inline-block bg-black text-white px-6 py-3 rounded-full font-bold text-lg mb-4">
-            🔥 {spotsLeft} / 100 Spots Remaining 🔥
-          </div>
-            
+            <div className="inline-block bg-black text-white px-6 py-3 rounded-full font-bold text-lg mb-4">
+              🔥 {spotsLeft} / 100 Spots Remaining 🔥
+            </div>
           )}
         </div>
 
@@ -883,20 +896,16 @@ export default function WaitlistPage() {
         <div className="flex justify-between normal-font gap-4 mt-12">
           <button type="button" onClick={handlePrevious} disabled={currentStep === 0}
             className={`px-8 py-4 rounded-lg normal-font font-semibold text-black transition-all ${currentStep === 0 ? 'opacity-50 cursor-not-allowed bg-white border-2 border-black' : 'bg-white border-2 border-black hover:bg-black'}`}>
-            &larr; Previous
+            ← Previous
           </button>
           <button type="button"
             onClick={() => { if (currentStep < questions.length - 1) { if (validateCurrentStep()) handleNext() } else { if (validateCurrentStep()) handleFinalSubmit(answers) } }}
             disabled={isSubmitting}
             className="px-8 py-4 rounded-lg normal-font font-semibold bg-[#000000] text-white border-2 border-[#000000] hover:bg-[#FF5A8A] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-            {isSubmitting ? 'Submitting...' : currentStep === questions.length - 1 ? 'Join Waitlist' : 'Next \u2192'}
+            {isSubmitting ? 'Submitting...' : currentStep === questions.length - 1 ? 'Join Waitlist' : 'Next →'}
           </button>
         </div>
       </div>
     </section>
   )
 }
-
-
-
-
