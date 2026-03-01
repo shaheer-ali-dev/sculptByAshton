@@ -316,14 +316,14 @@ const questions: Question[] = [
   {
     id: 'weeklyWorkoutSplit',
     type: 'textarea',
-    question: "What does your weekly workout split look like? (If you don't have one, leave blank.)",
+    question: "What does your weekly workout split look like? \n(If you don't have one, leave blank.)",
     placeholder: 'Example: Monday = Legs, Tuesday = Push...',
     required: false,
   },
   {
     id: 'motivation',
     type: 'textarea',
-    question: 'What motivates you?*',
+    question: 'What motivates you?',
     placeholder: '',
     required: false,
   },
@@ -337,7 +337,7 @@ const questions: Question[] = [
   {
     id: 'coachNotes',
     type: 'textarea',
-    question: "Is there anything you'd like me to know, as your new Online fitness Coach?",
+    question: "Is there anything you'd like me to know as your new online fitness coach?",
     placeholder: '',
     required: false,
   },
@@ -885,4 +885,5 @@ export default function QuestionnaireSection() {
     </section>
   )
 }
+
 
