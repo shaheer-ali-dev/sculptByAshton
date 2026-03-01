@@ -184,21 +184,21 @@ const questions: Question[] = [
   {
     id: 'grains',
     type: 'text',
-    question: 'Favorites - Grains (comma-separated, min 2)',
+    question: 'What are your favorites Grains \n(comma-separated, minimum 2)',
     placeholder: 'e.g. rice, oats',
     required: false,
   },
   {
     id: 'dairy',
     type: 'text',
-    question: 'Favorites - Dairy (comma-separated, min 2)',
+    question: 'What are your favorites Dairy \n(comma-separated, minimum 2)',
     placeholder: 'e.g. yogurt, milk',
     required: false,
   },
   {
     id: 'meat',
     type: 'text',
-    question: 'Favorites - Meat (comma-separated, min 2)',
+    question: 'What are your favorites Meat \n(comma-separated, minimum 2)',
     placeholder: 'e.g. chicken, beef',
     required: false,
   },
@@ -907,5 +907,6 @@ export default function WaitlistPage() {
     </section>
   )
 }
+
 
 
