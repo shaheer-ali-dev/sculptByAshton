@@ -620,9 +620,13 @@ export default function WaitlistPage() {
           <div className="w-full">
             <input type="range" min="1" max="10" value={value || 1} onChange={(e) => handleAnswer(e.target.value)}
               className="w-full h-3 bg-gray-200 rounded-lg accent-[#000000]" />
-            <div className="flex justify-between text-xs mt-2 text-gray-700">
-              {[1,2,3,4,5,6,7,8,9,10].map(num => <span key={num}>{num}</span>)}
-            </div>
+           <div className="flex justify-between text-xs mt-2 text-gray-700">
+  {[1,2,3,4,5,6,7,8,9,10].map(num => <span key={num}>{num}</span>)}
+</div>
+<div className="flex justify-between text-xs mt-1 text-gray-400 italic">
+  <span>1 - Absolutely terrible</span>
+  <span>10 - Tremendous</span>
+</div>
           </div>
         )
 
@@ -903,4 +907,5 @@ export default function WaitlistPage() {
     </section>
   )
 }
+
 
