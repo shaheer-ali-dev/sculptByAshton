@@ -170,14 +170,14 @@ const questions: Question[] = [
   {
     id: 'fruits',
     type: 'text',
-    question: 'Favorites - Fruits (comma-separated, min 2)',
+    question: 'What are your favorite fruits \n(comma-separated, minimum 2)',
     placeholder: 'e.g. apple, banana',
     required: false,
   },
   {
     id: 'vegetables',
     type: 'text',
-    question: 'Favorites - Vegetables (comma-separated, min 2)',
+    question: 'What are your favorites Vegetables \n(comma-separated, minimum 2)',
     placeholder: 'e.g. spinach, broccoli',
     required: false,
   },
@@ -240,14 +240,14 @@ const questions: Question[] = [
   {
     id: 'medications',
     type: 'text',
-    question: 'Are you currently taking any medication or medications?',
+    question: 'Are you currently taking any medication(s)',
     placeholder: 'List or "None"',
     required: false,
   },
   {
     id: 'occupation',
     type: 'textarea',
-    question: "What is your occupation?\n\nIf you're unemployed, or entrepreneurial and don't sit at a desk all day... feel free to leave this blank.\n\nIf you're not an entrepreneur, please answer as either: Full Time, or Part Time.",
+    question: "What is your occupation?\n\nIf you're unemployed or an entrepreneur and don't sit at a desk all day, feel free to leave this blank. \n\nIf you're not an entrepreneur, please answer as either: Full-Time or Part-Time.",
     placeholder: 'Type your answer here...',
     required: false,
   },
@@ -303,28 +303,28 @@ const questions: Question[] = [
   {
     id: 'weeklyWorkoutSplit',
     type: 'textarea',
-    question: "What does your weekly workout split look like? (If you don't have one, leave blank.)",
+    question: "What does your weekly workout split look like?\n (If you don't have one, leave blank.)",
     placeholder: 'Example: Monday = Legs, Tuesday = Push...',
     required: false,
   },
   {
     id: 'motivation',
     type: 'textarea',
-    question: 'What motivates you?*',
+    question: 'What motivates you?',
     placeholder: '',
     required: false,
   },
   {
     id: 'pastChallenges',
     type: 'textarea',
-    question: 'What challenges have kept you from reaching your goal(s) in the past?*',
+    question: 'What challenges have kept you from reaching your goal(s) in the past?',
     placeholder: '',
     required: false,
   },
   {
     id: 'coachNotes',
     type: 'textarea',
-    question: "Is there anything you'd like me to know, as your new Online fitness Coach?",
+    question: "Is there anything you'd like me to know as your new online fitness coach?",
     placeholder: '',
     required: false,
   },
@@ -356,13 +356,7 @@ const questions: Question[] = [
     placeholder: '',
     required: true,
   },
-  {
-    id: 'avatar',
-    type: 'avatar',
-    question: 'Upload a profile picture (optional)',
-    placeholder: '',
-    required: false,
-  },
+ 
   {
     id: 'instagram',
     type: 'text',
@@ -909,3 +903,4 @@ export default function WaitlistPage() {
     </section>
   )
 }
+
