@@ -408,11 +408,11 @@ type Stage = 'who-for' | 'who-not-for' | 'questions'
 
 function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
   return (
-    <section className="min-h-screen bg-[#0e0e0e] flex items-center justify-center py-16 px-4">
+    <section className="min-h-screen bg-[#ffffff] flex items-center justify-center py-16 px-4">
       <div className="max-w-2xl w-full">
-        <p className="text-xs tracking-[4px] uppercase text-gray-500 font-bold mb-6">Before you begin</p>
-        <h2 className="text-3xl md:text-4xl font-black text-white mb-8 leading-tight">Who This Is For</h2>
-        <div className="space-y-5 text-gray-300 text-lg leading-relaxed mb-10">
+        <p className="text-xs tracking-[4px] uppercase text-black-500 font-bold mb-6">Before you begin</p>
+        <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">Who This Is For</h2>
+        <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-10">
           <p>This is for individuals who know they&apos;re capable of more and are ready to prove it to themselves.</p>
           <p>You already have the ambition, the drive, and the desire to level up &mdash; you just need the right structure, guidance, and accountability to bring it out of you fully.</p>
           <p>You&apos;re ready to invest in yourself, ready to execute, and ready to be held to a higher standard. You&apos;re not here to &ldquo;try.&rdquo; You&apos;re here to transform.</p>
@@ -420,7 +420,7 @@ function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
         </div>
         <button
           onClick={onContinue}
-          className="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg tracking-wide hover:bg-gray-100 transition-all"
+          className="w-full py-5 rounded-2xl bg-black text-white font-bold text-lg tracking-wide hover:bg-gray-100 transition-all"
         >
           Continue &rarr;
         </button>
@@ -431,21 +431,21 @@ function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
 
 function WhoThisIsNotForScreen({ onContinue }: { onContinue: () => void }) {
   return (
-    <section className="min-h-screen bg-[#0e0e0e] flex items-center justify-center py-16 px-4">
+    <section className="min-h-screen bg-[#ffffff] flex items-center justify-center py-16 px-4">
       <div className="max-w-2xl w-full">
-        <p className="text-xs tracking-[4px] uppercase text-gray-500 font-bold mb-6">Important</p>
-        <h2 className="text-3xl md:text-4xl font-black text-white mb-8 leading-tight">
-          Who This Is <span className="underline decoration-gray-500">NOT</span> For
+        <p className="text-xs tracking-[4px] uppercase text-black-500 font-bold mb-6">Important</p>
+        <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">
+          Who This Is <span className="underline decoration-black-500">NOT</span> For
         </h2>
-        <div className="space-y-5 text-gray-300 text-lg leading-relaxed mb-6">
+        <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-6">
           <p>This is not for people looking for shortcuts or quick fixes.</p>
           <p>This is not for people who make excuses, avoid accountability, or aren&apos;t ready to commit to themselves fully.</p>
           <p>If you&apos;re unsure, hesitant, or not ready to invest in yourself mentally and financially, this isn&apos;t for you.</p>
-          <p className="text-white font-semibold">This program is for serious individuals only.</p>
+          <p className="text-black font-semibold">This program is for serious individuals only.</p>
         </div>
-        <div className="border-t border-[#222] my-8" />
-        <div className="space-y-4 text-gray-300 text-lg leading-relaxed mb-10">
-          <p className="text-white font-semibold text-xl">If that&apos;s you &mdash; let&apos;s get started.</p>
+        <div className="border-t border-[#ffffff] my-8" />
+        <div className="space-y-4 text-black-300 text-lg leading-relaxed mb-10">
+          <p className="text-black font-semibold text-xl">If that&apos;s you &mdash; let&apos;s get started.</p>
           <p>Complete the questionnaire below and take the first real step toward the version of yourself you&apos;ve been waiting to become.</p>
         </div>
         <button
@@ -885,6 +885,5 @@ export default function QuestionnaireSection() {
     </section>
   )
 }
-
 
 
