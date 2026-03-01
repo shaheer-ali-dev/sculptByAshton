@@ -137,6 +137,13 @@ const questions: Question[] = [
     required: false,
   },
   {
+    id: 'workoutPreference',
+    type: 'radio',
+    question: 'Do you prefer...',
+    options: ['Home Workouts', 'Gym Workouts', 'Either or'],
+    required: false,
+  },
+  {
     id: 'weightTrainingDaysPerWeek',
     type: 'text',
     question: 'How many days a week do you weight train on average?',
@@ -401,20 +408,19 @@ type Stage = 'who-for' | 'who-not-for' | 'questions'
 
 function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
   return (
-    <section className="min-h-screen bg-[#E5E7EB] flex items-center justify-center py-16 px-4">
+    <section className="min-h-screen bg-[#0e0e0e] flex items-center justify-center py-16 px-4">
       <div className="max-w-2xl w-full">
-        <p className="text-xs tracking-[4px] uppercase text-black-500 font-bold mb-6">Before you begin</p>
-        <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">Who This Is For</h2>
-       <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-10">
-  <p>This is for individuals who are done operating below their potential.</p>
-  <p>You already have ambition. You already have the drive. What you&apos;re missing is structure, direction, and a system built specifically for you.</p>
-  <p>You don&apos;t need motivation. You need standards.</p>
-  <p>You&apos;re ready to be coached. Ready to execute. Ready to invest in yourself without hesitation.</p>
-  <p>If you&apos;re serious about transforming your physique, your mindset, and the way you show up in life &mdash; you&apos;re in the right place.</p>
-</div>
+        <p className="text-xs tracking-[4px] uppercase text-gray-500 font-bold mb-6">Before you begin</p>
+        <h2 className="text-3xl md:text-4xl font-black text-white mb-8 leading-tight">Who This Is For</h2>
+        <div className="space-y-5 text-gray-300 text-lg leading-relaxed mb-10">
+          <p>This is for individuals who know they&apos;re capable of more and are ready to prove it to themselves.</p>
+          <p>You already have the ambition, the drive, and the desire to level up &mdash; you just need the right structure, guidance, and accountability to bring it out of you fully.</p>
+          <p>You&apos;re ready to invest in yourself, ready to execute, and ready to be held to a higher standard. You&apos;re not here to &ldquo;try.&rdquo; You&apos;re here to transform.</p>
+          <p>You&apos;re serious about changing your physique, your mindset, and the way you show up in your life.</p>
+        </div>
         <button
           onClick={onContinue}
-          className="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg tracking-wide hover:bg-black-100 transition-all"
+          className="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg tracking-wide hover:bg-gray-100 transition-all"
         >
           Continue &rarr;
         </button>
@@ -425,28 +431,26 @@ function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
 
 function WhoThisIsNotForScreen({ onContinue }: { onContinue: () => void }) {
   return (
-    <section className="min-h-screen bg-[#E5E7EB] flex items-center justify-center py-16 px-4">
+    <section className="min-h-screen bg-[#0e0e0e] flex items-center justify-center py-16 px-4">
       <div className="max-w-2xl w-full">
-        <p className="text-xs tracking-[4px] uppercase text-black-500 font-bold mb-6">Important</p>
-        <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">
-          Who This Is <span className="underline decoration-black-500">NOT</span> For
+        <p className="text-xs tracking-[4px] uppercase text-gray-500 font-bold mb-6">Important</p>
+        <h2 className="text-3xl md:text-4xl font-black text-white mb-8 leading-tight">
+          Who This Is <span className="underline decoration-gray-500">NOT</span> For
         </h2>
-       <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-6">
-  <p>This is not for people looking for quick fixes or shortcuts.</p>
-  <p>Not for people who make excuses.</p>
-  <p>Not for people who disappear when things get uncomfortable.</p>
-  <p>Not for people who need to be convinced to invest in themselves.</p>
-  <p>If you&apos;re unsure, hesitant, or not ready to commit fully &mdash; this isn&apos;t for you.</p>
-  <p className="text-black font-semibold">I work with serious individuals only.</p>
-</div>
+        <div className="space-y-5 text-gray-300 text-lg leading-relaxed mb-6">
+          <p>This is not for people looking for shortcuts or quick fixes.</p>
+          <p>This is not for people who make excuses, avoid accountability, or aren&apos;t ready to commit to themselves fully.</p>
+          <p>If you&apos;re unsure, hesitant, or not ready to invest in yourself mentally and financially, this isn&apos;t for you.</p>
+          <p className="text-white font-semibold">This program is for serious individuals only.</p>
+        </div>
         <div className="border-t border-[#222] my-8" />
-        <div className="space-y-4 text-black-300 text-lg leading-relaxed mb-10">
-          <p className="text-black font-semibold text-xl">If that&apos;s you &mdash; let&apos;s get started.</p>
+        <div className="space-y-4 text-gray-300 text-lg leading-relaxed mb-10">
+          <p className="text-white font-semibold text-xl">If that&apos;s you &mdash; let&apos;s get started.</p>
           <p>Complete the questionnaire below and take the first real step toward the version of yourself you&apos;ve been waiting to become.</p>
         </div>
         <button
           onClick={onContinue}
-          className="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg tracking-wide hover:bg-black-100 transition-all"
+          className="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg tracking-wide hover:bg-gray-100 transition-all"
         >
           Start the Questionnaire &rarr;
         </button>
@@ -576,10 +580,10 @@ export default function QuestionnaireSection() {
               setAnswers((prev) => ({ ...prev, [fieldKey]: opt.value }))
               if (errors[fieldKey]) setErrors((prev) => { const u = { ...prev }; delete u[fieldKey]; return u })
             }}
-            className={`w-full px-6 py-5 rounded-[30px] border-2 text-left font-bold text-base transition-all ${selected ? 'bg-white border-[#5A5A5A] text-black-900 shadow-md ring-1 ring-[#5A5A5A]' : 'bg-white border-black-300 text-black-700 hover:border-black-400'}`}
+            className={`w-full px-6 py-5 rounded-[30px] border-2 text-left font-bold text-base transition-all ${selected ? 'bg-white border-[#5A5A5A] text-gray-900 shadow-md ring-1 ring-[#5A5A5A]' : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400'}`}
           >
             <span className="flex items-center gap-3">
-              <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${selected ? 'border-[#5A5A5A] bg-[#5A5A5A]' : 'border-black-400'}`}>
+              <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${selected ? 'border-[#5A5A5A] bg-[#5A5A5A]' : 'border-gray-400'}`}>
                 {selected && <span className="w-2 h-2 rounded-full bg-white block" />}
               </span>
               {opt.label}
@@ -602,9 +606,9 @@ export default function QuestionnaireSection() {
               key={opt}
               type="button"
               onClick={() => handleAnswer(opt, true)}
-              className={`w-full px-6 py-4 rounded-[30px] border-2 text-left font-semibold flex items-center gap-3 transition-all ${selected ? 'bg-white border-[#5A5A5A] text-black-900 shadow-sm ring-1 ring-[#5A5A5A]' : 'bg-white border-black-300 text-black-700 hover:border-black-400'}`}
+              className={`w-full px-6 py-4 rounded-[30px] border-2 text-left font-semibold flex items-center gap-3 transition-all ${selected ? 'bg-white border-[#5A5A5A] text-gray-900 shadow-sm ring-1 ring-[#5A5A5A]' : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400'}`}
             >
-              <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${selected ? 'border-[#5A5A5A] bg-[#5A5A5A]' : 'border-black-400'}`}>
+              <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${selected ? 'border-[#5A5A5A] bg-[#5A5A5A]' : 'border-gray-400'}`}>
                 {selected && <span className="w-2 h-2 rounded-full bg-white block" />}
               </span>
               {opt}
@@ -624,12 +628,12 @@ export default function QuestionnaireSection() {
       rows.push(
         <div key={i} className="flex justify-center gap-4 mb-4">
           <button type="button" onClick={() => handleAnswer(first, !currentQuestion.multiple)}
-            className={`px-6 py-4 rounded-[30px] border-2 text-center font-bold w-[350px] ${(Array.isArray(answers[currentQuestion.id]) ? answers[currentQuestion.id].includes(first) : answers[currentQuestion.id] === first) ? 'bg-white border-[#5A5A5A] text-black-900 shadow-sm ring-1 ring-[#E6E7E9]' : 'bg-white border-black-300 text-black-700 hover:border-black-400'}`}>
+            className={`px-6 py-4 rounded-[30px] border-2 text-center font-bold w-[350px] ${(Array.isArray(answers[currentQuestion.id]) ? answers[currentQuestion.id].includes(first) : answers[currentQuestion.id] === first) ? 'bg-white border-[#5A5A5A] text-gray-900 shadow-sm ring-1 ring-[#E6E7E9]' : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400'}`}>
             {first}
           </button>
           {second && (
             <button type="button" onClick={() => handleAnswer(second, !currentQuestion.multiple)}
-              className={`px-6 py-4 rounded-[30px] border-2 text-center font-bold w-[350px] ${(Array.isArray(answers[currentQuestion.id]) ? answers[currentQuestion.id].includes(second) : answers[currentQuestion.id] === second) ? 'bg-white border-[#5A5A5A] text-black-900 shadow-sm ring-1 ring-[#E6E7E9]' : 'bg-white border-black-300 text-black-700 hover:border-black-400'}`}>
+              className={`px-6 py-4 rounded-[30px] border-2 text-center font-bold w-[350px] ${(Array.isArray(answers[currentQuestion.id]) ? answers[currentQuestion.id].includes(second) : answers[currentQuestion.id] === second) ? 'bg-white border-[#5A5A5A] text-gray-900 shadow-sm ring-1 ring-[#E6E7E9]' : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400'}`}>
               {second}
             </button>
           )}
@@ -672,52 +676,52 @@ export default function QuestionnaireSection() {
         return (
           <input key={currentQuestion.id} type={currentQuestion.type === 'email' ? 'email' : 'text'} value={value}
             onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder} autoComplete="off"
-            className={`w-full px-4 py-3 rounded-lg border bg-white text-black-900 ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'} focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent`} />
+            className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent`} />
         )
 
       case 'password':
         return (
           <input key={currentQuestion.id} type="password" value={value} onChange={(e) => handleAnswer(e.target.value)}
             placeholder={currentQuestion.placeholder || 'At least 6 characters'} autoComplete="new-password"
-            className={`w-full px-4 py-3 rounded-lg border bg-white text-black-900 ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'} focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent`} />
+            className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent`} />
         )
 
       case 'name':
         return (
           <div className="grid grid-cols-2 gap-4">
             <input type="text" value={answers.firstName || ''} onChange={(e) => handleNameChange('firstName', e.target.value)} placeholder="First Name"
-              className={`w-full px-4 py-3 rounded-lg border bg-white text-black-900 ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'}`} />
+              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
             <input type="text" value={answers.lastName || ''} onChange={(e) => handleNameChange('lastName', e.target.value)} placeholder="Last Name"
-              className={`w-full px-4 py-3 rounded-lg border bg-white text-black-900 ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'}`} />
+              className={`w-full px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
           </div>
         )
 
       case 'phone':
         return (
           <div className="flex gap-2">
-            <select className="px-4 py-3 rounded-lg border border-black-300 bg-white text-black-900" value={answers.countryCode || '+92'}
+            <select className="px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900" value={answers.countryCode || '+92'}
               onChange={(e) => setAnswers((prev) => ({ ...prev, countryCode: e.target.value }))}>
               <option value="+92">PK +92</option>
               <option value="+1">US +1</option>
               <option value="+44">UK +44</option>
             </select>
             <input type="tel" value={value} onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder}
-              className={`flex-1 px-4 py-3 rounded-lg border bg-white text-black-900 ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'}`} />
+              className={`flex-1 px-4 py-3 rounded-lg border bg-white text-gray-900 ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
           </div>
         )
 
       case 'textarea':
         return (
           <textarea value={value} onChange={(e) => handleAnswer(e.target.value)} placeholder={currentQuestion.placeholder || 'Type your answer here...'} rows={6}
-            className={`w-full px-6 py-5 rounded-lg border bg-white text-black-900 min-h-[250px] focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent resize-y ${hasError ? 'border-[#5A5A5A]' : 'border-black-300'}`} />
+            className={`w-full px-6 py-5 rounded-lg border bg-white text-gray-900 min-h-[250px] focus:outline-none focus:ring-2 focus:ring-[#5A5A5A] focus:border-transparent resize-y ${hasError ? 'border-[#5A5A5A]' : 'border-gray-300'}`} />
         )
 
       case 'scale':
         return (
           <div className="w-full">
-            <div className="text-center text-4xl font-black text-black-900 mb-4">{value || 1}</div>
-            <input type="range" min="1" max="10" value={value || 1} onChange={(e) => handleAnswer(e.target.value)} className="w-full h-3 bg-black-200 rounded-lg accent-[#5A5A5A]" />
-            <div className="flex justify-between text-xs mt-2 text-black-700">
+            <div className="text-center text-4xl font-black text-gray-900 mb-4">{value || 1}</div>
+            <input type="range" min="1" max="10" value={value || 1} onChange={(e) => handleAnswer(e.target.value)} className="w-full h-3 bg-gray-200 rounded-lg accent-[#5A5A5A]" />
+            <div className="flex justify-between text-xs mt-2 text-gray-700">
               {[1,2,3,4,5,6,7,8,9,10].map((num) => <span key={num}>{num}</span>)}
             </div>
           </div>
@@ -727,19 +731,19 @@ export default function QuestionnaireSection() {
         return (
           <div className="flex flex-col items-center gap-4">
             <label ref={dropRef} htmlFor="avatar-file"
-              className="w-40 h-40 rounded-full bg-white border-2 border-dashed border-black-300 flex flex-col items-center justify-center gap-2 cursor-pointer overflow-hidden relative hover:border-black-400 transition-all">
+              className="w-40 h-40 rounded-full bg-white border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-2 cursor-pointer overflow-hidden relative hover:border-gray-400 transition-all">
               {avatarPreview ? (
                 <>
                   <img src={avatarPreview} alt="avatar preview" className="w-full h-full object-cover" />
-                  <div className="absolute bottom-2 right-2 bg-black/40 text-black text-xs px-2 py-1 rounded">Change</div>
+                  <div className="absolute bottom-2 right-2 bg-black/40 text-white text-xs px-2 py-1 rounded">Change</div>
                 </>
               ) : (
                 <>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black-400" viewBox="0 0 20 20" fill="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v9a2 2 0 002 2h12a2 2 0 002-2V8.414a2 2 0 00-.586-1.414l-3.414-3.414A2 2 0 0012.586 3H4zm8 6a3 3 0 11-6 0 3 3 0 016 0z" clipRule="evenodd" />
                   </svg>
-                  <div className="text-sm text-black-600">Upload photo</div>
-                  <div className="text-xs text-black-400">Drag & drop or click</div>
+                  <div className="text-sm text-gray-600">Upload photo</div>
+                  <div className="text-xs text-gray-400">Drag & drop or click</div>
                 </>
               )}
               <input id="avatar-file" type="file" accept="image/*" className="hidden"
@@ -748,11 +752,11 @@ export default function QuestionnaireSection() {
             {avatarPreview && (
               <button type="button"
                 onClick={() => { handleAvatarChange(undefined); const input = document.getElementById('avatar-file') as HTMLInputElement | null; if (input) input.value = '' }}
-                className="px-4 py-2 rounded-lg bg-white border border-black-300 text-sm hover:bg-black-100">
+                className="px-4 py-2 rounded-lg bg-white border border-gray-300 text-sm hover:bg-gray-100">
                 Remove
               </button>
             )}
-            {currentQuestion.required && <p className="text-sm text-black-600">Required</p>}
+            {currentQuestion.required && <p className="text-sm text-gray-600">Required</p>}
           </div>
         )
 
@@ -816,24 +820,24 @@ export default function QuestionnaireSection() {
     return (
       <section id="questionnaire" className="py-1 bg-[#E5E7EB] min-h-screen flex items-center">
         <div className="container mx-auto px-4 max-w-2xl text-center">
-          <div className="bg-white rounded-2xl p-10 shadow-sm border border-black-200">
-            <div className="w-16 h-16 rounded-full bg-black-100 flex items-center justify-center mx-auto mb-6">
+          <div className="bg-white rounded-2xl p-10 shadow-sm border border-gray-200">
+            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-6">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-[#5A5A5A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-black-900 mb-4 heading-font">Thank You for Applying</h2>
-            <p className="text-black-600 text-base leading-relaxed mb-6 normal-font">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4 heading-font">Thank You for Applying</h2>
+            <p className="text-gray-600 text-base leading-relaxed mb-6 normal-font">
               We truly appreciate your time and the courage it takes to invest in yourself &mdash; that alone says a lot about who you are.
             </p>
-            <p className="text-black-600 text-base leading-relaxed mb-6 normal-font">
+            <p className="text-gray-600 text-base leading-relaxed mb-6 normal-font">
               At this time, we aren&apos;t able to move forward with your application. Our coaching program is a full-year commitment starting at <strong>$750 quarterly</strong>, and we want to make sure every client we take on is set up for long-term success &mdash; financially and physically.
             </p>
-            <p className="text-black-600 text-base leading-relaxed mb-8 normal-font">
+            <p className="text-gray-600 text-base leading-relaxed mb-8 normal-font">
               This isn&apos;t a permanent door closing. When the timing is right and you&apos;re ready to commit fully, we&apos;d love to hear from you again. Keep working on yourself &mdash; your transformation is worth it.
             </p>
-            <div className="border-t border-black-100 pt-6">
-              <p className="text-sm text-black-500 normal-font">
+            <div className="border-t border-gray-100 pt-6">
+              <p className="text-sm text-gray-500 normal-font">
                 Questions? Feel free to reach out on Instagram for more information about future opportunities.
               </p>
             </div>
@@ -854,11 +858,11 @@ export default function QuestionnaireSection() {
           <div className="w-full h-1.5 bg-white rounded-full overflow-hidden">
             <div className="h-full bg-[#5A5A5A] transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
-          <p className="text-xs text-black-500 text-right mt-1 normal-font">{currentStep + 1} / {questions.length}</p>
+          <p className="text-xs text-gray-500 text-right mt-1 normal-font">{currentStep + 1} / {questions.length}</p>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl normal-font md:text-2xl font-bold text-black-900 mb-8 text-center whitespace-pre-line">{currentQuestion.question}</h3>
+          <h3 className="text-xl normal-font md:text-2xl font-bold text-gray-900 mb-8 text-center whitespace-pre-line">{currentQuestion.question}</h3>
           <div className="mb-4 normal-font">{renderInput()}</div>
           {errors[currentQuestion.id] && <p className="text-[#5A5A5A] normal-font text-sm mt-2 text-center">{errors[currentQuestion.id]}</p>}
           {currentQuestion.type === 'budget-start' && errors['budgetStart'] && <p className="text-[#5A5A5A] normal-font text-sm mt-2 text-center">{errors['budgetStart']}</p>}
@@ -869,11 +873,11 @@ export default function QuestionnaireSection() {
 
         <div className="flex justify-between normal-font gap-4 mt-12">
           <button type="button" onClick={handlePrevious} disabled={currentStep === 0 || loading}
-            className={`px-8 py-4 rounded-lg normal-font font-bold bg-transparent text-black border-2 border-[#5A5A5A] transition-all ${currentStep === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-black-100'}`}>
+            className={`px-8 py-4 rounded-lg normal-font font-bold bg-transparent text-black border-2 border-[#5A5A5A] transition-all ${currentStep === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}`}>
             &larr; Previous
           </button>
           <button type="button" onClick={handleNext} disabled={loading}
-            className="px-8 py-4 rounded-lg normal-font font-bold bg-white text-black border-2 border-[#5A5A5A] hover:bg-black-100 transition-all">
+            className="px-8 py-4 rounded-lg normal-font font-bold bg-white text-black border-2 border-[#5A5A5A] hover:bg-gray-100 transition-all">
             {loading ? 'Submitting...' : currentStep === questions.length - 1 ? 'Submit' : 'Next \u2192'}
           </button>
         </div>
@@ -881,4 +885,3 @@ export default function QuestionnaireSection() {
     </section>
   )
 }
-
