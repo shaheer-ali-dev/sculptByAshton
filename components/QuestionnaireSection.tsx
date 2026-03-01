@@ -181,35 +181,35 @@ const questions: Question[] = [
   {
     id: 'fruits',
     type: 'text',
-    question: 'Favorites - Fruits (comma-separated, min 2)',
+    question: 'What are your favorite fruits \n(comma-separated, minimum 2)',
     placeholder: 'e.g. apple, banana',
     required: false,
   },
   {
     id: 'vegetables',
     type: 'text',
-    question: 'Favorites - Vegetables (comma-separated, min 2)',
+    question: 'What are your favorite Vegetables\n(comma-separated, minimum 2)',
     placeholder: 'e.g. spinach, broccoli',
     required: false,
   },
   {
     id: 'grains',
     type: 'text',
-    question: 'Favorites - Grains (comma-separated, min 2)',
+    question: 'What are your favorite Grains\n(comma-separated, minimum 2)',
     placeholder: 'e.g. rice, oats',
     required: false,
   },
   {
     id: 'dairy',
     type: 'text',
-    question: 'Favorites - Dairy (comma-separated, min 2)',
+    question: 'What are your favorite Dairy \n(comma-separated, minimum 2)',
     placeholder: 'e.g. yogurt, milk',
     required: false,
   },
   {
     id: 'meat',
     type: 'text',
-    question: 'Favorites - Meat (comma-separated, min 2)',
+    question: 'What are your favorite Meat \n(comma-separated, minimum 2)',
     placeholder: 'e.g. chicken, beef',
     required: false,
   },
@@ -251,7 +251,7 @@ const questions: Question[] = [
   {
     id: 'medications',
     type: 'text',
-    question: 'Are you currently taking any medication or medications?',
+    question: 'Are you currently taking any medication(s)?',
     placeholder: 'List or "None"',
     required: false,
   },
@@ -259,7 +259,7 @@ const questions: Question[] = [
   {
     id: 'occupation',
     type: 'textarea',
-    question: 'What is your occupation?\n\nIf you\'re unemployed, or entrepreneurial and don\'t sit at a desk all day... feel free to leave this blank.\n\nIf you\'re not an entrepreneur, please answer as either: Full Time, or Part Time.',
+    question: 'What is your occupation?\n\nIf you're unemployed or an entrepreneur and don't sit at a desk all day, feel free to leave this blank.\n\nIf you\'re not an entrepreneur, please answer as either: Full-Time or Part-Time.',
     placeholder: 'Type your answer here...',
     required: false,
   },
@@ -885,3 +885,4 @@ export default function QuestionnaireSection() {
     </section>
   )
 }
+
