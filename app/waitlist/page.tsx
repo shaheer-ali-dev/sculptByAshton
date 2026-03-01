@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 
 interface Question {
   id: string
-  type: 'text' | 'avatar' | 'email' | 'phone' | 'textarea' | 'multiple-choice' | 'age' | 'gender' | 'yes-no' | 'guardian' | 'scale' | 'name' | 'password'
+  type: 'text' | 'avatar' | 'email' | 'phone' | 'textarea' | 'multiple-choice' | 'age' | 'gender' | 'yes-no' | 'guardian' | 'scale' | 'name' | 'password' | 'budget-start' | 'budget-total'
   question: string
   options?: string[]
   placeholder?: string
@@ -13,6 +13,32 @@ interface Question {
 }
 
 const REGISTER_URL = 'http://localhost:5000/register'
+
+// ── Budget options ────────────────────────────────────────────────────────────
+
+const STARTING_BUDGET_OPTIONS = [
+  { label: 'Under $750',      value: 'under_750',   passes: false },
+  { label: '$750 - $999',     value: '750_999',     passes: true  },
+  { label: '$1,000 - $1,499', value: '1000_1499',   passes: true  },
+  { label: '$1,500+',         value: '1500_plus',   passes: true  },
+]
+
+const TOTAL_BUDGET_OPTIONS = [
+  { label: 'Under $1,000',    value: 'under_1000',  passes: false },
+  { label: '$1,000 - $1,999', value: '1000_1999',   passes: false },
+  { label: '$2,000 - $2,999', value: '2000_2999',   passes: false },
+  { label: '$3,000+',         value: '3000_plus',   passes: true  },
+]
+
+function checkBudgetPasses(answers: Record<string, any>): { passes: boolean } {
+  const startOpt = STARTING_BUDGET_OPTIONS.find((o) => o.value === answers['budgetStart'])
+  const totalOpt = TOTAL_BUDGET_OPTIONS.find((o) => o.value === answers['budgetTotal'])
+  if (startOpt && !startOpt.passes) return { passes: false }
+  if (totalOpt && !totalOpt.passes) return { passes: false }
+  return { passes: true }
+}
+
+// ── Questions ─────────────────────────────────────────────────────────────────
 
 const questions: Question[] = [
   {
@@ -328,6 +354,20 @@ const questions: Question[] = [
     placeholder: '',
     required: false,
   },
+  // ── Budget filter questions ────────────────────────────────────────────────
+  {
+    id: 'budgetStart',
+    type: 'budget-start',
+    question: 'To get started, coaching is billed quarterly at $750.\nWhat starting investment are you comfortable with?',
+    required: true,
+  },
+  {
+    id: 'budgetTotal',
+    type: 'budget-total',
+    question: 'If accepted into the program, what level of investment are you comfortable making toward your full transformation?',
+    required: true,
+  },
+  // ── Contact & account ─────────────────────────────────────────────────────
   {
     id: 'name',
     type: 'name',
@@ -356,7 +396,6 @@ const questions: Question[] = [
     placeholder: '',
     required: true,
   },
- 
   {
     id: 'instagram',
     type: 'text',
@@ -366,7 +405,67 @@ const questions: Question[] = [
   },
 ]
 
+// ── Intro Screens ─────────────────────────────────────────────────────────────
+
+type Stage = 'who-for' | 'who-not-for' | 'questions' | 'declined'
+
+function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
+  return (
+    <section className="min-h-screen bg-[#FAF9F6] flex items-center justify-center py-16 px-4">
+      <div className="max-w-2xl w-full">
+        <p className="text-xs tracking-[4px] uppercase text-gray-500 font-bold mb-6">Before you begin</p>
+        <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">Who This Is For</h2>
+        <div className="space-y-5 text-gray-700 text-lg leading-relaxed mb-10">
+          <p>This is for individuals who know they&apos;re capable of more and are ready to prove it to themselves.</p>
+          <p>You already have the ambition, the drive, and the desire to level up &mdash; you just need the right structure, guidance, and accountability to bring it out of you fully.</p>
+          <p>You&apos;re ready to invest in yourself, ready to execute, and ready to be held to a higher standard. You&apos;re not here to &ldquo;try.&rdquo; You&apos;re here to transform.</p>
+          <p>You&apos;re serious about changing your physique, your mindset, and the way you show up in your life.</p>
+        </div>
+        <button
+          onClick={onContinue}
+          className="w-full py-5 rounded-2xl bg-black text-white font-bold text-lg tracking-wide hover:bg-gray-800 transition-all"
+        >
+          Continue &rarr;
+        </button>
+      </div>
+    </section>
+  )
+}
+
+function WhoThisIsNotForScreen({ onContinue }: { onContinue: () => void }) {
+  return (
+    <section className="min-h-screen bg-[#FAF9F6] flex items-center justify-center py-16 px-4">
+      <div className="max-w-2xl w-full">
+        <p className="text-xs tracking-[4px] uppercase text-gray-500 font-bold mb-6">Important</p>
+        <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">
+          Who This Is <span className="underline">NOT</span> For
+        </h2>
+        <div className="space-y-5 text-gray-700 text-lg leading-relaxed mb-6">
+          <p>This is not for people looking for shortcuts or quick fixes.</p>
+          <p>This is not for people who make excuses, avoid accountability, or aren&apos;t ready to commit to themselves fully.</p>
+          <p>If you&apos;re unsure, hesitant, or not ready to invest in yourself mentally and financially, this isn&apos;t for you.</p>
+          <p className="text-black font-semibold">This program is for serious individuals only.</p>
+        </div>
+        <div className="border-t border-gray-200 my-8" />
+        <div className="space-y-4 text-gray-700 text-lg leading-relaxed mb-10">
+          <p className="text-black font-semibold text-xl">If that&apos;s you &mdash; let&apos;s get started.</p>
+          <p>Complete the questionnaire below and take the first real step toward the version of yourself you&apos;ve been waiting to become.</p>
+        </div>
+        <button
+          onClick={onContinue}
+          className="w-full py-5 rounded-2xl bg-black text-white font-bold text-lg tracking-wide hover:bg-gray-800 transition-all"
+        >
+          Start the Questionnaire &rarr;
+        </button>
+      </div>
+    </section>
+  )
+}
+
+// ── Main Component ────────────────────────────────────────────────────────────
+
 export default function WaitlistPage() {
+  const [stage, setStage] = useState<Stage>('who-for')
   const [currentStep, setCurrentStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, any>>({})
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -409,10 +508,48 @@ export default function WaitlistPage() {
 
   useEffect(() => { setErrors({}) }, [currentStep])
 
+  // Show intro screens first
+  if (stage === 'who-for') return <WhoThisIsForScreen onContinue={() => setStage('who-not-for')} />
+  if (stage === 'who-not-for') return <WhoThisIsNotForScreen onContinue={() => setStage('questions')} />
+
+  // Declined screen
+  if (stage === 'declined') {
+    return (
+      <section className="min-h-screen bg-[#FAF9F6] flex items-center justify-center px-4">
+        <div className="container mx-auto px-4 max-w-2xl text-center">
+          <div className="bg-white rounded-2xl p-10 shadow-sm border border-gray-200">
+            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4 heading-font">Thank You for Applying</h2>
+            <p className="text-gray-600 text-base leading-relaxed mb-6 normal-font">
+              We truly appreciate your time and the courage it takes to invest in yourself &mdash; that alone says a lot about who you are.
+            </p>
+            <p className="text-gray-600 text-base leading-relaxed mb-6 normal-font">
+              At this time, we aren&apos;t able to move forward with your application. Our coaching program is a full-year commitment starting at <strong>$750 quarterly</strong>, and we want to make sure every client we take on is set up for long-term success &mdash; financially and physically.
+            </p>
+            <p className="text-gray-600 text-base leading-relaxed mb-8 normal-font">
+              This isn&apos;t a permanent door closing. When the timing is right and you&apos;re ready to commit fully, we&apos;d love to hear from you again. Keep working on yourself &mdash; your transformation is worth it.
+            </p>
+            <div className="border-t border-gray-100 pt-6">
+              <p className="text-sm text-gray-500 normal-font">
+                Questions? Feel free to reach out on Instagram for more information about future opportunities.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   const validateAnswersForQuestion = (question: Question, answersObj: Record<string, any>) => {
     if (!question.required) return true
     if (question.type === 'name') return Boolean(answersObj['firstName'] && answersObj['lastName'])
     if (question.type === 'password') return Boolean(answersObj['password'] && answersObj['password'].length >= 6)
+    if (question.type === 'budget-start') return Boolean(answersObj['budgetStart'])
+    if (question.type === 'budget-total') return Boolean(answersObj['budgetTotal'])
     const answer = answersObj[question.id]
     if (!answer) return false
     if (Array.isArray(answer) && answer.length === 0) return false
@@ -469,6 +606,16 @@ export default function WaitlistPage() {
           setErrors((prev) => ({ ...prev, [currentQuestion.id]: 'Password must be at least 6 characters' }))
           return false
         }
+      } else if (currentQuestion.type === 'budget-start') {
+        if (!answers['budgetStart']) {
+          setErrors((prev) => ({ ...prev, budgetStart: 'Please select an option to continue' }))
+          return false
+        }
+      } else if (currentQuestion.type === 'budget-total') {
+        if (!answers['budgetTotal']) {
+          setErrors((prev) => ({ ...prev, budgetTotal: 'Please select an option to continue' }))
+          return false
+        }
       } else {
         const answer = answers[currentQuestion.id]
         if (!answer || (Array.isArray(answer) && answer.length === 0) || (typeof answer === 'string' && answer.trim() === '')) {
@@ -493,6 +640,34 @@ export default function WaitlistPage() {
   }
 
   const handlePrevious = () => { if (currentStep > 0) setCurrentStep((prev) => prev - 1) }
+
+  // ── Budget renderer ───────────────────────────────────────────────────────
+
+  const renderBudgetOptions = (options: { label: string; value: string; passes: boolean }[], fieldKey: string) => (
+    <div className="grid grid-cols-1 gap-3 w-full max-w-xl mx-auto">
+      {options.map((opt) => {
+        const selected = answers[fieldKey] === opt.value
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => {
+              setAnswers((prev) => ({ ...prev, [fieldKey]: opt.value }))
+              if (errors[fieldKey]) setErrors((prev) => { const u = { ...prev }; delete u[fieldKey]; return u })
+            }}
+            className={`w-full px-6 py-5 rounded-[30px] border-2 text-left font-bold text-base transition-all ${selected ? 'bg-white border-[#000000] text-gray-900 shadow-md ring-1 ring-[#000000]' : 'bg-white border-gray-300 text-gray-700 hover:border-gray-400'}`}
+          >
+            <span className="flex items-center gap-3">
+              <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${selected ? 'border-[#000000] bg-[#000000]' : 'border-gray-400'}`}>
+                {selected && <span className="w-2 h-2 rounded-full bg-white block" />}
+              </span>
+              {opt.label}
+            </span>
+          </button>
+        )
+      })}
+    </div>
+  )
 
   const renderOptionsHardCoded = () => {
     if (!currentQuestion.options) return null
@@ -558,6 +733,22 @@ export default function WaitlistPage() {
     const hasError = !!errors[currentQuestion.id]
 
     switch (currentQuestion.type) {
+      case 'budget-start':
+        return (
+          <>
+            {renderBudgetOptions(STARTING_BUDGET_OPTIONS, 'budgetStart')}
+            {errors['budgetStart'] && <p className="text-[#000000] normal-font text-sm mt-2 text-center">{errors['budgetStart']}</p>}
+          </>
+        )
+
+      case 'budget-total':
+        return (
+          <>
+            {renderBudgetOptions(TOTAL_BUDGET_OPTIONS, 'budgetTotal')}
+            {errors['budgetTotal'] && <p className="text-[#000000] normal-font text-sm mt-2 text-center">{errors['budgetTotal']}</p>}
+          </>
+        )
+
       case 'text':
       case 'email':
         return (
@@ -620,13 +811,13 @@ export default function WaitlistPage() {
           <div className="w-full">
             <input type="range" min="1" max="10" value={value || 1} onChange={(e) => handleAnswer(e.target.value)}
               className="w-full h-3 bg-gray-200 rounded-lg accent-[#000000]" />
-           <div className="flex justify-between text-xs mt-2 text-gray-700">
-  {[1,2,3,4,5,6,7,8,9,10].map(num => <span key={num}>{num}</span>)}
-</div>
-<div className="flex justify-between text-xs mt-1 text-gray-400 italic">
-  <span>1 - Absolutely terrible</span>
-  <span>10 - Tremendous</span>
-</div>
+            <div className="flex justify-between text-xs mt-2 text-gray-700">
+              {[1,2,3,4,5,6,7,8,9,10].map(num => <span key={num}>{num}</span>)}
+            </div>
+            <div className="flex justify-between text-xs mt-1 text-gray-400 italic">
+              <span>1 - Absolutely terrible</span>
+              <span>10 - Tremendous</span>
+            </div>
           </div>
         )
 
@@ -700,6 +891,9 @@ export default function WaitlistPage() {
         return
       }
 
+      // ── Budget check ──────────────────────────────────────────────────────
+      const { passes } = checkBudgetPasses(finalAnswers)
+
       const formData = new FormData()
       formData.append('firstName', finalAnswers.firstName ?? '')
       formData.append('lastName', finalAnswers.lastName ?? '')
@@ -752,7 +946,9 @@ export default function WaitlistPage() {
       if (finalAnswers.instagram) formData.append('instagram', String(finalAnswers.instagram))
       if (finalAnswers.coachId) formData.append('coachId', String(finalAnswers.coachId))
       if (finalAnswers.package) formData.append('package', String(finalAnswers.package))
+      formData.append('budgetPassed', String(passes))
 
+      // Always send to register
       try {
         const regResp = await fetch(REGISTER_URL, { method: 'POST', body: formData })
         if (!regResp.ok) {
@@ -771,6 +967,13 @@ export default function WaitlistPage() {
         }
       } catch (e) { console.warn('Register request error:', e) }
 
+      // If budget fails → show declined screen
+      if (!passes) {
+        setStage('declined')
+        return
+      }
+
+      // Budget passes → submit to waitlist as normal
       const payload = { ...finalAnswers }
       delete payload.avatarFile
       if (finalAnswers.countryCode || finalAnswers.phone) payload.phoneNumber = (finalAnswers.countryCode ?? '') + (finalAnswers.phone ?? '')
@@ -790,6 +993,8 @@ export default function WaitlistPage() {
       setIsSubmitting(false)
     }
   }
+
+  // ── Success / Full / Error screens ────────────────────────────────────────
 
   if (submissionStatus === 'success') {
     return (
@@ -858,6 +1063,8 @@ export default function WaitlistPage() {
     )
   }
 
+  // ── Main questionnaire UI ─────────────────────────────────────────────────
+
   return (
     <section className="py-20 bg-[#FAF9F6] min-h-screen">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -907,6 +1114,3 @@ export default function WaitlistPage() {
     </section>
   )
 }
-
-
-
