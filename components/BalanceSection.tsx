@@ -62,7 +62,7 @@ export default function BalanceSection() {
           <h2 style={{
             fontSize: 'clamp(28px, 5vw, 52px)',
             fontWeight: 900,
-            color: '#fff',
+            color: '#000000',
             lineHeight: 1.15,
             marginBottom: 48,
             letterSpacing: '-0.5px',
@@ -144,21 +144,16 @@ export default function BalanceSection() {
           </p>
           <p style={{
             fontSize: 'clamp(22px, 4vw, 38px)',
-            color: '#fff',
+            color: '#000000',
             fontWeight: 800,
             marginTop: 24,
             lineHeight: 1.3,
             letterSpacing: '-0.3px',
           }}>
             Good thing you absolutely&nbsp;
-            <span style={{
-              background: 'linear-gradient(90deg, #fff 0%, #000000 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
+           
               don&apos;t have to.
-            </span>
+           
           </p>
         </div>
 
@@ -192,8 +187,8 @@ export default function BalanceSection() {
                 style={{
                   padding: '28px 24px',
                   borderRadius: 16,
-                  border: '1px solid #fff9f9',
-                  background: '#141414',
+                  border: '1px solid #000000',
+                  background: '#ffffff',
                   opacity: visible ? 1 : 0,
                   transform: visible ? 'translateY(0)' : 'translateY(20px)',
                   transition: `opacity 0.6s ease ${0.8 + i * 0.12}s, transform 0.6s ease ${0.8 + i * 0.12}s`,
@@ -204,7 +199,7 @@ export default function BalanceSection() {
                   fontWeight: 800,
                   letterSpacing: 2,
                   textTransform: 'uppercase',
-                  color: '#fff',
+                  color: '#000000',
                   marginBottom: 10,
                 }}>
                   {p.label}
@@ -282,4 +277,3 @@ export default function BalanceSection() {
     </section>
   )
 }
-
