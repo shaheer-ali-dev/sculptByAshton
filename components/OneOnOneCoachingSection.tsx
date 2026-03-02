@@ -44,11 +44,7 @@ export default function OneManTeamSection() {
 
         <div className="md:w-1/3 flex justify-center md:justify-end">
           <div className="w-64 md:w-72 lg:w-96">
-            <img
-              src="/images/coach.jpg"
-              alt="1:1 Coaching"
-              className="w-full h-auto object-cover rounded-md"
-            />
+
           </div>
         </div>
 
@@ -56,3 +52,4 @@ export default function OneManTeamSection() {
     </section>
   )
 }
+
