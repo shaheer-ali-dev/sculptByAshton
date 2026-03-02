@@ -8,21 +8,23 @@ const STRIPE_LINKS: Record<string, string> = {
   upfront:   'https://buy.stripe.com/00wcN7a7Weko3NNbTT8N20f',
   quarterly: 'https://buy.stripe.com/00w9AVcg47W0bgf1ff8N20g',
   half:      'https://buy.stripe.com/fZubJ33Jy0ty6ZZ0bb8N20h',
+  monthly:   'https://buy.stripe.com/4gM3cxbc0a48fwv5vv8N20i',
 }
 
 const PLAN_LABELS: Record<string, string> = {
   upfront:   'Full Upfront — $3,000 USD',
   quarterly: 'Quarterly — $750 USD every 3 months',
   half:      'Half & Half — $1,500 USD now, $1,500 next month',
+  monthly:   'Monthly — $250 USD per month',
 }
 
 const AGREEMENT_TEXT = `YOU WILL NOT BE CHARGED RIGHT AWAY AFTER SIGNING AND SUBMITTING THIS AGREEMENT.
 YOUR PAYMENT INFO WILL BE COLLECTED, AND YOU WILL ONLY BE CHARGED ONCE THE CREATION OF YOUR PERSONALIZED MEAL PLAN AND YOUR PERSONALIZED WORKOUT PLAN HAVE BOTH BEEN COMPLETED.
 YOU WILL RECEIVE BOTH PERSONALIZED PLANS AFTER YOUR PAYMENT HAS BEEN FULFILLED
 
-ONCE YOU'VE BEEN BILLED, IF YOU CHOSE THE HALF & HALF PAYMENT PLAN, OR QUARTERLY PAYMENT PLAN THIS WILL ALSO BE THE FIRST DAY OF YOUR BILLING CYCLE, IF YOU'VE DECIDED TO INVEST IN THIS COACHING PROGRAM BASED ON ONE OF THESE TWO INCREMENT PAYMENT PLANS.
+ONCE YOU'VE BEEN BILLED, IF YOU CHOSE THE HALF & HALF PAYMENT PLAN, QUARTERLY PAYMENT PLAN, OR MONTHLY PAYMENT PLAN THIS WILL ALSO BE THE FIRST DAY OF YOUR BILLING CYCLE, IF YOU'VE DECIDED TO INVEST IN THIS COACHING PROGRAM BASED ON ONE OF THESE INCREMENT PAYMENT PLANS.
 
-By signing below, you agree to pay the full program fee of USD $3,000.00 + Applicable sales tax (either the full amount upfront, half upfront & the remaining half of the total coaching cost paid the next month, or payments made quarterly (USD $750.00 + applicable sales tax every 3 months from your original billing date), to fulfill and conclude 12 months worth of coaching payments.
+By signing below, you agree to pay the full program fee of USD $3,000.00 + Applicable sales tax (either the full amount upfront, half upfront & the remaining half of the total coaching cost paid the next month, quarterly (USD $750.00 + applicable sales tax every 3 months from your original billing date), or payments made monthly to fulfill and conclude 12 months worth of coaching payments.
 
 ONCE THE FIRST PAYMENT HAS BEEN MADE, YOU ARE OBLIGATED TO PAY THE REMAINING BALANCE OF THE TOTAL COST FOR THIS COACHING PROGRAM, REGARDLESS OF USAGE OR PARTICIPATION.
 
@@ -45,7 +47,7 @@ This agreement outlines the terms between you (__________) and (SCULPT BY ASHTON
 
 The total fee for the program is $3,000.00 USD + Applicable sales tax.
 
-You may choose to pay in full upfront, half up front & half the next month from your original billing date (USD $1,500.00 + applicable sales tax), or make quarterly payments (Payments made every 3 months from signup date) of USD $750.00 + Applicable sales tax.
+You may choose to pay in full upfront, half up front & half the next month from your original billing date (USD $1,500.00 + applicable sales tax), quarterly payments (Payments made every 3 months from signup date) of USD $750.00 + Applicable sales tax, or monthly payments of USD $250.00 per month.
 
 No refunds will be issued under any circumstances, including but not limited to dissatisfaction, lack of participation, schedule conflicts, or personal matters.
 
@@ -417,6 +419,7 @@ export default function Agreement() {
         {planCard('upfront',   'Full Upfront',  '$3,000 USD — single payment')}
         {planCard('quarterly', 'Quarterly',      '$750 USD × 4 (every 3 months)')}
         {planCard('half',      'Half & Half',   '$1,500 now + $1,500 next month')}
+        {planCard('monthly',   'Monthly',        '$250 USD per month')}
         {errSpan('plan')}
       </div>
 
