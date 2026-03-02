@@ -25,8 +25,8 @@ export default function HeroSection() {
         aria-label="Start now"
       >
         <p className="text-black text-xs sm:text-sm font-semibold leading-snug">
-          Level up your mindset, and create lasting habits that make{' '}
-          <span className="font-black uppercase">being sculpted a lifestyle</span>
+          Iron sharpens Iron. Shift your mentality, and set your mind on creating habits that make {' '}
+          <span className="font-black uppercase">being SCULPTED A LIFESTYLE</span>
         </p>
         <button
           onClick={(e) => { e.stopPropagation(); scrollToQuestionnaire() }}
@@ -39,7 +39,7 @@ export default function HeroSection() {
       </div>
 
       {/* ─────────────────────────────────────────────────────────────────
-          GRADIENT WISHLIST BANNER
+          GRADIENT Waitlist BANNER
       ───────────────────────────────────────────────────────────────── */}
       <div
         onClick={() => router.push('/waitlist')}
@@ -56,7 +56,7 @@ export default function HeroSection() {
           )`
         }}
       >
-        Join the Wishlist — Limited Early Access Available
+        Join the Waitlist — Limited Early Access Available
       </div>
 
       {/* ─────────────────────────────────────────────────────────────────
@@ -134,3 +134,4 @@ export default function HeroSection() {
     </>
   )
 }
+
