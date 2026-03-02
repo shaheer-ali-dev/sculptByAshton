@@ -13,47 +13,45 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-black text-white py-12">
-      <div className="container mx-auto px-6 max-w-7xl">
-        <div className="grid md:grid-cols-3 gap-8 items-start">
-          
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+
           {/* LEFT SIDE */}
           <div className="md:col-span-2">
-            <div className="absolute top-8 left-8 z-20">
-        <div className="flex items-center gap-3">
-          <div className="relative flex items-center justify-center">
-            <img
-              src="/logo-m.png"
-              alt="AW Logo"
-              className="w-16 h-16 md:w-20 md:h-20 object-contain"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-                const placeholder = e.currentTarget.nextElementSibling as HTMLElement
-                if (placeholder) placeholder.classList.remove('hidden')
-              }}
-            />
-            <div className="hidden absolute inset-0 bg-transparent text-white flex items-center justify-center font-bold text-lg rounded">
-              AW
-            </div>
-          </div>
+            <div className="flex items-center gap-3 mb-6 md:mb-0 md:absolute md:top-8 md:left-8 md:z-20">
+              <div className="relative flex items-center justify-center">
+                <img
+                  src="/logo-m.png"
+                  alt="AW Logo"
+                  className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                    const placeholder = e.currentTarget.nextElementSibling as HTMLElement
+                    if (placeholder) placeholder.classList.remove('hidden')
+                  }}
+                />
+                <div className="hidden absolute inset-0 bg-transparent text-white flex items-center justify-center font-bold text-lg rounded">
+                  AW
+                </div>
+              </div>
 
-          <div className="text-white">
-            <div className="text-2xl font-bold whitespace-nowrap heading-font">
-              {/* Sculpt <br /> By Ashton */}
-              SCULPT <br /> BY ASHTON
+              <div className="text-white">
+                <div className="text-xl sm:text-2xl font-bold whitespace-nowrap heading-font">
+                  SCULPT <br /> BY ASHTON
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-<br /><br />
-            <h3 className="mt-8 heading-font text-3xl md:text-3xl lg:text-3xl font-extrabold text-white max-w-lg">
-              {/* Step into Your Evolution */}
+
+            <div className="hidden md:block"><br /><br /></div>
+
+            <h3 className="mt-2 md:mt-8 heading-font text-2xl sm:text-3xl font-extrabold text-white max-w-lg">
               STEP INTO YOUR EVOLUTION
             </h3>
 
-            <div className="mt-8">
+            <div className="mt-6 sm:mt-8">
               <button
                 onClick={handleSignUp}
-                className="inline-flex items-center gap-4 bg-white text-black px-6 py-3 rounded-full font-semibold shadow-md hover:shadow-lg transition"
+                className="inline-flex items-center gap-3 sm:gap-4 bg-white text-black px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold shadow-md hover:shadow-lg transition w-full sm:w-auto justify-center sm:justify-start"
               >
                 <span>SIGN UP NOW</span>
                 <span className="bg-black/10 rounded-full p-2 inline-flex items-center justify-center">
@@ -66,22 +64,22 @@ export default function Footer() {
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="text-right">
+          <div className="text-left md:text-right mt-4 md:mt-0">
             <p className="text-sm text-white/80">
               Copyright © {new Date().getFullYear()} <span className="font-semibold">Sculpt By Ashton</span> All rights reserved.
             </p>
 
-            <div className="mt-4 text-xs space-x-4">
+            <div className="mt-4 text-xs flex flex-wrap gap-3 md:justify-end">
               <a href="/privacy" className="underline text-white/85 hover:text-white">Privacy Policy</a>
               <a href="/terms" className="underline text-white/85 hover:text-white">Terms of Service</a>
               <a href="/contact" className="underline text-white/85 hover:text-white">Contact</a>
             </div>
 
-            {/* SOCIAL ICONS FIXED HERE */}
-            <div className="mt-6 flex justify-end space-x-4">
+            {/* SOCIAL ICONS */}
+            <div className="mt-6 flex justify-start md:justify-end space-x-4">
 
               {/* Instagram */}
-              <a href="https://www.instagram.com/ashtonslifts?igsh=eTJqa3Y5dXk5cWY1&utm_source=qr" 
+              <a href="https://www.instagram.com/ashtonslifts?igsh=eTJqa3Y5dXk5cWY1&utm_source=qr"
                  aria-label="Instagram"
                  target="_blank"
                  className="opacity-95 hover:opacity-100">
@@ -102,8 +100,8 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
-
           </div>
+
         </div>
       </div>
     </footer>
