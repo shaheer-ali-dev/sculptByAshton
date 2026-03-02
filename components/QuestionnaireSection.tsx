@@ -115,7 +115,6 @@ const questions: Question[] = [
     options: ['Yes', 'No'],
     required: false,
   },
-  // ✅ NEW
   {
     id: 'exerciseFrequency',
     type: 'radio',
@@ -123,7 +122,6 @@ const questions: Question[] = [
     options: ['1-2 times per week', '3-4 times per week', '5-6 times per week', 'Daily (7 times per week)'],
     required: false,
   },
-  // ✅ NEW
   {
     id: 'activityLevel',
     type: 'radio',
@@ -255,7 +253,6 @@ const questions: Question[] = [
     placeholder: 'List or "None"',
     required: false,
   },
-  // ✅ REWORDED with context
   {
     id: 'occupation',
     type: 'textarea',
@@ -277,7 +274,6 @@ const questions: Question[] = [
     placeholder: '',
     required: false,
   },
-  // ✅ REWORDED to radio
   {
     id: 'fitnessLevel',
     type: 'radio',
@@ -341,7 +337,6 @@ const questions: Question[] = [
     placeholder: '',
     required: false,
   },
-  // ✅ Budget filters
   {
     id: 'budgetStart',
     type: 'budget-start',
@@ -354,7 +349,6 @@ const questions: Question[] = [
     question: 'If accepted into the program, what level of investment are you comfortable making toward your full transformation?',
     required: true,
   },
-  // Contact & account
   {
     id: 'name',
     type: 'name',
@@ -408,7 +402,7 @@ type Stage = 'who-for' | 'who-not-for' | 'questions'
 
 function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
   return (
-    <section className="min-h-screen bg-[#ffffff] flex items-center justify-center py-16 px-4">
+    <section id="questionnaire" className="min-h-screen bg-[#ffffff] flex items-center justify-center py-16 px-4">
       <div className="max-w-2xl w-full">
         <p className="text-xs tracking-[4px] uppercase text-black-500 font-bold mb-6">Before you begin</p>
         <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">Who This Is For</h2>
@@ -431,7 +425,7 @@ function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
 
 function WhoThisIsNotForScreen({ onContinue }: { onContinue: () => void }) {
   return (
-    <section className="min-h-screen bg-[#ffffff] flex items-center justify-center py-16 px-4">
+    <section id="questionnaire" className="min-h-screen bg-[#ffffff] flex items-center justify-center py-16 px-4">
       <div className="max-w-2xl w-full">
         <p className="text-xs tracking-[4px] uppercase text-black-500 font-bold mb-6">Important</p>
         <h2 className="text-3xl md:text-4xl font-black text-black mb-8 leading-tight">
@@ -594,7 +588,6 @@ export default function QuestionnaireSection() {
     </div>
   )
 
-  // ✅ NEW: Radio renderer for single-select stacked options
   const renderRadioOptions = () => {
     if (!currentQuestion.options) return null
     return (
@@ -885,5 +878,3 @@ export default function QuestionnaireSection() {
     </section>
   )
 }
-
-
