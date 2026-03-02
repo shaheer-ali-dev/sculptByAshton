@@ -17,26 +17,26 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
 
-     {/* Premium Gradient Wishlist Banner */}
-<div
-  onClick={() => router.push('/waitlist')}
-  className="absolute top-0 left-0 w-full py-3 text-center text-white 
-             text-xs sm:text-sm md:text-base font-semibold tracking-wider 
-             cursor-pointer z-50 transition-opacity duration-300 hover:opacity-90"
-  style={{
-    background: `
-      linear-gradient(
-        90deg,
-        rgba(255, 94, 158, 0.95),
-        rgba(199, 55, 255, 0.95),
-        rgba(255, 56, 96, 0.95),
-        rgba(255, 140, 0, 0.95)
-      )
-    `
-  }}
->
-  Join the Wishlist — Limited Early Access Available
-</div>
+      {/* Premium Gradient Wishlist Banner */}
+      <div
+        onClick={() => router.push('/waitlist')}
+        className="absolute top-0 left-0 w-full py-3 text-center text-white 
+                   text-xs sm:text-sm md:text-base font-semibold tracking-wider 
+                   cursor-pointer z-50 transition-opacity duration-300 hover:opacity-90"
+        style={{
+          background: `
+            linear-gradient(
+              90deg,
+              rgba(255, 94, 158, 0.95),
+              rgba(199, 55, 255, 0.95),
+              rgba(255, 56, 96, 0.95),
+              rgba(255, 140, 0, 0.95)
+            )
+          `
+        }}
+      >
+        Join the Wishlist — Limited Early Access Available
+      </div>
 
       {/* Background */}
       <div
@@ -45,43 +45,42 @@ export default function HeroSection() {
       />
 
       {/* Logo */}
-      <div className="absolute top-16 left-8 z-40">
-        <div className="flex items-center gap-3">
+      <div className="absolute top-14 sm:top-16 left-4 sm:left-8 z-40">
+        <div className="flex items-center gap-2 sm:gap-3">
           <img
             src="/logo-m.png"
             alt="AW Logo"
-            className="w-16 h-16 md:w-20 md:h-20 object-contain"
+            className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain"
           />
-          <div className="text-white text-2xl font-bold whitespace-nowrap heading-font">
+          <div className="text-white text-lg sm:text-2xl font-bold whitespace-nowrap heading-font">
             SCULPT <br /> BY ASHTON
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 w-full h-full flex items-center justify-center">
-        <div className="w-full max-w-6xl px-4 md:px-10 lg:px-16 flex flex-col items-center text-center">
+      <div className="relative z-10 w-full h-full flex items-center justify-center pt-24 sm:pt-20 pb-10">
+        <div className="w-full max-w-6xl px-4 sm:px-6 md:px-10 lg:px-16 flex flex-col items-center text-center">
 
           <header className="mb-6 w-full flex justify-center">
             <div className="flex flex-col items-center">
               <div
                 className="font-bold text-white heading-font"
-                style={{ fontSize: 'clamp(1.75rem, 5vw, 2.5rem)', lineHeight: 1 }}
+                style={{ fontSize: 'clamp(1.4rem, 5vw, 2.5rem)', lineHeight: 1 }}
               >
                 AVERAGE IS A HABIT
               </div>
 
               <div
                 className="font-bold mt-3 text-white heading-font"
-                style={{ fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', lineHeight: 1 }}
+                style={{ fontSize: 'clamp(1.3rem, 5vw, 2.2rem)', lineHeight: 1 }}
               >
                 GREATNESS IS A DECISION
               </div>
             </div>
           </header>
 
-          {/* ✅ Replaced Paragraph */}
-          <p className="text-white text-base sm:text-lg md:text-xl mb-8 leading-relaxed normal-font w-full max-w-5xl">
+          <p className="text-white text-sm sm:text-base md:text-xl mb-8 leading-relaxed normal-font w-full max-w-5xl">
             Sculpted by Ashton isn't just about building a powerful physique. It's a mindset.
             It's understanding that your body is a work of art in every single way. And this
             piece of art is built on the foundation of discipline, self-respect, the relentless,
@@ -93,9 +92,9 @@ export default function HeroSection() {
 
           <button
             onClick={handleSignUp}
-            className="bg-black border border-white text-white px-10 py-4 rounded-full font-bold text-lg 
-                       shadow-md hover:shadow-2xl transition-all duration-300 
-                       transform hover:scale-105 flex items-center gap-2 group"
+            className="bg-black border border-white text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg
+                       shadow-md hover:shadow-2xl transition-all duration-300
+                       transform hover:scale-105 flex items-center gap-2 group w-full sm:w-auto justify-center"
           >
             SIGN UP NOW
             <img
@@ -107,5 +106,4 @@ export default function HeroSection() {
       </div>
     </section>
   )
-
 }
