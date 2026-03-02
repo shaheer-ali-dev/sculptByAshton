@@ -5,105 +5,132 @@ import { useRouter } from 'next/navigation'
 export default function HeroSection() {
   const router = useRouter()
 
-  const handleSignUp = () => {
-    const element = document.getElementById('questionnaire')
-    if (element) element.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const handleWishlistClick = () => {
-    router.push('/pages/wishlist')
+  const scrollToQuestionnaire = () => {
+    const el = document.getElementById('questionnaire')
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+    <>
+      {/* ─────────────────────────────────────────────────────────────────
+          TOP BANNER — like "Baddies Lift Heavy" reference screenshot
+          Light background, text on left, rounded black button on right
+      ───────────────────────────────────────────────────────────────── */}
+      <div
+        className="w-full flex flex-row items-center justify-between gap-3
+                   px-4 sm:px-8 py-3 sm:py-4 cursor-pointer
+                   bg-[#f0ebe3]"
+        onClick={scrollToQuestionnaire}
+        role="button"
+        aria-label="Start now"
+      >
+        <p className="text-black text-xs sm:text-sm font-semibold leading-snug">
+          Level up your mindset, and create lasting habits that make{' '}
+          <span className="font-black uppercase">being sculpted a lifestyle</span>
+        </p>
+        <button
+          onClick={(e) => { e.stopPropagation(); scrollToQuestionnaire() }}
+          className="flex-shrink-0 bg-black text-white font-bold text-xs sm:text-sm
+                     px-4 sm:px-6 py-2 sm:py-2.5 rounded-full whitespace-nowrap
+                     hover:bg-gray-800 transition-colors duration-200"
+        >
+          START NOW
+        </button>
+      </div>
 
-      {/* Premium Gradient Wishlist Banner */}
+      {/* ─────────────────────────────────────────────────────────────────
+          GRADIENT WISHLIST BANNER
+      ───────────────────────────────────────────────────────────────── */}
       <div
         onClick={() => router.push('/waitlist')}
-        className="absolute top-0 left-0 w-full py-3 text-center text-white 
-                   text-xs sm:text-sm md:text-base font-semibold tracking-wider 
-                   cursor-pointer z-50 transition-opacity duration-300 hover:opacity-90"
+        className="w-full py-2.5 sm:py-3 text-center text-white
+                   text-xs sm:text-sm font-semibold tracking-wider
+                   cursor-pointer hover:opacity-90 transition-opacity duration-300"
         style={{
-          background: `
-            linear-gradient(
-              90deg,
-              rgba(255, 94, 158, 0.95),
-              rgba(199, 55, 255, 0.95),
-              rgba(255, 56, 96, 0.95),
-              rgba(255, 140, 0, 0.95)
-            )
-          `
+          background: `linear-gradient(
+            90deg,
+            rgba(255,94,158,0.95),
+            rgba(199,55,255,0.95),
+            rgba(255,56,96,0.95),
+            rgba(255,140,0,0.95)
+          )`
         }}
       >
         Join the Wishlist — Limited Early Access Available
       </div>
 
-      {/* Background */}
-      <div
-        className="absolute inset-0 z-0 bg-cover bg-center opacity-50"
-        style={{ backgroundColor: '#000000' }}
-      />
+      {/* ─────────────────────────────────────────────────────────────────
+          HERO SECTION
+          Uses flex column so nothing is absolute-positioned.
+          This prevents ALL horizontal overflow on mobile.
+      ───────────────────────────────────────────────────────────────── */}
+      <section
+        className="relative w-full min-h-screen flex flex-col bg-black overflow-hidden"
+      >
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black opacity-50 z-0 pointer-events-none" />
 
-      {/* Logo */}
-      <div className="absolute top-14 sm:top-16 left-4 sm:left-8 z-40">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <img
-            src="/logo-m.png"
-            alt="AW Logo"
-            className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain"
-          />
-          <div className="text-white text-lg sm:text-2xl font-bold whitespace-nowrap heading-font">
-            SCULPT <br /> BY ASHTON
+        {/* ── Logo row — in normal document flow, never clips ── */}
+        <div className="relative z-40 w-full px-4 sm:px-8 pt-5 sm:pt-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <img
+              src="/logo-m.png"
+              alt="AW Logo"
+              className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 object-contain flex-shrink-0"
+            />
+            <div className="text-white font-bold heading-font leading-tight"
+                 style={{ fontSize: 'clamp(0.95rem, 4vw, 1.5rem)' }}>
+              SCULPT <br /> BY ASHTON
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 w-full h-full flex items-center justify-center pt-24 sm:pt-20 pb-10">
-        <div className="w-full max-w-6xl px-4 sm:px-6 md:px-10 lg:px-16 flex flex-col items-center text-center">
+        {/* ── Main content ── */}
+        <div className="relative z-10 flex-1 flex items-center justify-center py-10 px-4 sm:px-6">
+          <div className="w-full max-w-2xl flex flex-col items-center text-center">
 
-          <header className="mb-6 w-full flex justify-center">
-            <div className="flex flex-col items-center">
-              <div
-                className="font-bold text-white heading-font"
-                style={{ fontSize: 'clamp(1.4rem, 5vw, 2.5rem)', lineHeight: 1 }}
-              >
-                AVERAGE IS A HABIT
-              </div>
+            {/* Headline */}
+            <h1 className="font-bold text-white heading-font mb-4 w-full"
+                style={{ fontSize: 'clamp(1.3rem, 6vw, 2.5rem)', lineHeight: 1.1 }}>
+              AVERAGE IS A HABIT
+              <br />
+              GREATNESS IS A DECISION
+            </h1>
 
-              <div
-                className="font-bold mt-3 text-white heading-font"
-                style={{ fontSize: 'clamp(1.3rem, 5vw, 2.2rem)', lineHeight: 1 }}
-              >
-                GREATNESS IS A DECISION
-              </div>
-            </div>
-          </header>
+            {/* Body text */}
+            <p className="text-white leading-relaxed normal-font mb-8 w-full"
+               style={{ fontSize: 'clamp(0.8rem, 3.5vw, 1.1rem)' }}>
+              Sculpted by Ashton isn&apos;t just about building a powerful physique. It&apos;s a mindset.
+              It&apos;s understanding that your body is a work of art in every single way. And this
+              piece of art is built on the foundation of discipline, self-respect, the relentless,
+              and endless drive to evolve. This is about becoming the version of yourself that
+              follows through, that leads, that shows up with intention every single day. I&apos;m here
+              to guide that transformation with fitness and nutrition tailored specifically to YOU,
+              helping you step into your strongest, most unstoppable self.
+            </p>
 
-          <p className="text-white text-sm sm:text-base md:text-xl mb-8 leading-relaxed normal-font w-full max-w-5xl">
-            Sculpted by Ashton isn't just about building a powerful physique. It's a mindset.
-            It's understanding that your body is a work of art in every single way. And this
-            piece of art is built on the foundation of discipline, self-respect, the relentless,
-            and endless drive to evolve. This is about becoming the version of yourself that
-            follows through, that leads, that shows up with intention every single day. I'm here
-            to guide that transformation with fitness and nutrition tailored specifically to YOU,
-            helping you step into your strongest, most unstoppable self.
-          </p>
+            {/* CTA Button */}
+            <button
+              onClick={scrollToQuestionnaire}
+              className="bg-black border border-white text-white
+                         px-6 sm:px-10 py-3 sm:py-4 rounded-full
+                         font-bold shadow-md hover:shadow-2xl
+                         transition-all duration-300 transform hover:scale-105
+                         flex items-center justify-center gap-2
+                         w-full sm:w-auto"
+              style={{ fontSize: 'clamp(0.85rem, 3vw, 1.1rem)' }}
+            >
+              SIGN UP NOW
+              <img
+                src="https://cdn.prod.website-files.com/681907465c74d32f50b71064/681907465c74d32f50b71077_arrow-circle-broken-right.svg"
+                alt=""
+                className="w-5 h-5 sm:w-6 sm:h-6"
+              />
+            </button>
 
-          <button
-            onClick={handleSignUp}
-            className="bg-black border border-white text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg
-                       shadow-md hover:shadow-2xl transition-all duration-300
-                       transform hover:scale-105 flex items-center gap-2 group w-full sm:w-auto justify-center"
-          >
-            SIGN UP NOW
-            <img
-              src="https://cdn.prod.website-files.com/681907465c74d32f50b71064/681907465c74d32f50b71077_arrow-circle-broken-right.svg"
-              alt=""
-            />
-          </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }
