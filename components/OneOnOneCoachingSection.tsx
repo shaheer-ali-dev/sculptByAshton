@@ -14,8 +14,7 @@ export default function OneManTeamSection() {
           </p>
           <br />
           <p className="normal-font text-gray-700 text-base md:text-lg">
-            I am a one man team—and I take pride in that. Every single aspect of your coaching is handled directly by me.
-            Nothing is outsourced. Nothing is automated. Nothing is passed off.
+            I am a one-man team, and I take pride in that. Every single aspect of your coaching experience” is handled directly by me. Nothing is outsourced. Nothing is automated. Nothing is passed off.
           </p>
           <br />
           <p className="normal-font text-gray-700 text-base md:text-lg">
@@ -41,3 +40,4 @@ export default function OneManTeamSection() {
     </section>
   )
 }
+
