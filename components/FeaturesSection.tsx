@@ -41,7 +41,7 @@ export default function FeaturesSection() {
     {
       title: 'Real Coaching.',
       items: [
-        'Every program is personally designed and reviewed by an experienced coach — never auto-generated or AI-built.',
+        'Every program is personally designed and reviewed by Ashton, who is a certified personal trainer + qualified & experienced coach — nothing is ever auto generated or AI-built',
         'Your training, nutrition, and progression are manually adjusted based on your body, performance, and real-world feedback.',
       ],
     },
@@ -104,3 +104,4 @@ export default function FeaturesSection() {
     </>
   )
 }
+
