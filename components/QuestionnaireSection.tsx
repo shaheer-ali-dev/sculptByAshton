@@ -409,7 +409,7 @@ function WhoThisIsForScreen({ onContinue }: { onContinue: () => void }) {
         <div className="space-y-5 text-black-300 text-lg leading-relaxed mb-10">
           <p>This is for individuals who know they&apos;re capable of more and are ready to prove it to themselves.</p>
           <p>You already have the ambition, the drive, and the desire to level up &mdash; you just need the right structure, guidance, and accountability to bring it out of you fully.</p>
-          <p>You&apos;re ready to invest in yourself, ready to execute, and ready to be held to a higher standard. You&apos;re not here to &ldquo;try.&rdquo; You&apos;re here to transform.</p>
+          <p>You&apos;re ready to invest in yourself, ready to execute, and ready to be held to a higher standard. You&apos;re not here to try. You&apos;re here to transform.</p>
           <p>You&apos;re serious about changing your physique, your mindset, and the way you show up in your life.</p>
         </div>
         <button
@@ -878,3 +878,4 @@ export default function QuestionnaireSection() {
     </section>
   )
 }
+
